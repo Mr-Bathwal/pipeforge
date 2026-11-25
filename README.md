@@ -131,7 +131,7 @@ app/streamlit_app.py   seven-panel bilingual app
 site/                  scroll-driven 3D showcase (three.js, GSAP), reads site/data.json
 artifacts/             generated STEP, STL, drawings, programs, sheets, fixtures, models, results
 docs/                  engineering notes, model card, A3, fixture design, playbook, architecture
-tests/                 140 tests (pytest, Hypothesis, Streamlit AppTest)
+tests/                 141 tests (pytest, Hypothesis, Streamlit AppTest)
 ```
 
 The architecture diagram is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -140,7 +140,7 @@ The architecture diagram is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ```bash
 make setup        # uv venv (Python 3.12) + requirements-dev (CadQuery included)
-make test         # 140 tests
+make test         # 141 tests
 make train        # download TubeBEND (797 MB, md5-checked), build features, train, evaluate
 make sim          # line simulation + kaizen scenarios -> artifacts/line
 make artifacts    # STEP/STL/drawings/programs/sheets/fixtures for the sample parts
