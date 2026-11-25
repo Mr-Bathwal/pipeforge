@@ -39,7 +39,7 @@ the first item not marked done. Research notes are in
 | figures script, CI workflow, Pages workflow, LICENSE | done |
 | Study PFMEA sheet | done (141 tests) |
 | CV pack + pitch + demo shot list | done: `C:\Users\goura\Downloads\PipeForge_CV_and_Pitch.md` (fill links after deploy) |
-| STUDY_GUIDE, 30 Q&A | agent writing `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md` and `PipeForge_Interview_QA.md` |
+| STUDY_GUIDE, 30 Q&A | done: `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md`, `PipeForge_Interview_QA.md` |
 | GitHub repo + push | done: https://github.com/Mr-Bathwal/pipeforge (CI green on 93d3a4e) |
 | Streamlit Cloud deploy, Pages source = GitHub Actions | waiting for the user (their logins) |
 | Demo video | the user records it from the shot list |
