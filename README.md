@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Mr-Bathwal/pipeforge/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-Bathwal/pipeforge/actions/workflows/ci.yml)
 
-**Live showcase:** https://pipeforge-site.vercel.app · **Code:** this repository
+**Live app:** https://pipeforge.streamlit.app · **Live showcase:** https://pipeforge-site.vercel.app · **Code:** this repository
 
 PipeForge takes a bent-tube part (XYZ centerline points, OD, wall, CLR, JIS material) and produces what a process engineer needs to make and check it:
 

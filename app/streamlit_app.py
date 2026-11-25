@@ -137,11 +137,12 @@ def run_analysis(part_d: dict, mode: str, measured: float | None, setup: dict | 
 
 with st.sidebar:
     st.markdown(f"### {t('part')}")
-    src = st.radio(" ", [t("sample"), t("custom")], horizontal=True, label_visibility="collapsed")
+    # Stable keys and option values: translated labels must not reset the user's choices.
+    src = st.radio(" ", ["sample", "custom"], format_func=t, horizontal=True, label_visibility="collapsed", key="src")
     smp = samples()
-    if src == t("sample"):
+    if src == "sample":
         names = {f"{k}  {v['name']}": k for k, v in smp.items()}
-        pick = st.selectbox(t("sample"), list(names), index=list(smp).index("PF-HB-2201"))
+        pick = st.selectbox(t("sample"), list(names), index=list(smp).index("PF-HB-2201"), key="sample_pick")
         part_d = smp[names[pick]]
     else:
         default = "\n".join(", ".join(f"{c:g}" for c in p) for p in smp["PF-HB-2201"]["points"])
@@ -150,7 +151,7 @@ with st.sidebar:
         od = c1.number_input("OD (mm)", 3.0, 60.0, 22.2, 0.1)
         wall = c2.number_input("t (mm)", 0.3, 6.0, 1.6, 0.1)
         clr = c3.number_input("CLR (mm)", 3.0, 400.0, 60.0, 1.0)
-        mat = st.selectbox(t("material"), list(MATERIALS), index=1)
+        mat = st.selectbox(t("material"), list(MATERIALS), index=1, key="material")
         try:
             pts = [[float(x) for x in line.replace(";", ",").split(",")] for line in txt.strip().splitlines() if line.strip()]
             part_d = Part(part_no="CUSTOM-01", name="Custom part", material=mat, od=od, wall=wall, clr=clr,
@@ -210,7 +211,7 @@ def tube_fig(part_d: dict, height: int = 520) -> go.Figure:
 with tabs[0]:
     c1, c2 = st.columns([3, 2])
     with c1:
-        st.plotly_chart(tube_fig(part_d), use_container_width=True)
+        st.plotly_chart(tube_fig(part_d), width="stretch")
     with c2:
         st.markdown("**Parametric 3D CAD**: annulus swept along lines and true arcs. STEP from CadQuery; STL and the "
                     "drawing are generated live from the same centerline.")
@@ -239,10 +240,10 @@ with tabs[1]:
         st.markdown("**Nominal LRA** (part geometry)")
         lra = pd.DataFrame(A.lra)
         lra["bend"] = lra["bend"].replace(0, "end")
-        st.dataframe(lra.round(3), hide_index=True, use_container_width=True)
+        st.dataframe(lra.round(3), hide_index=True, width="stretch")
     with c2:
         st.markdown("**Compensated YBC** (what the bender runs)")
-        st.dataframe(pd.DataFrame(A.ybc.as_table()), hide_index=True, use_container_width=True)
+        st.dataframe(pd.DataFrame(A.ybc.as_table()), hide_index=True, width="stretch")
     st.caption(f"C = A + springback (overbend). Y is shortened by the tangent growth that springback causes "
                f"(radius grows at constant arc length), so the intersection points land on nominal. Cut length "
                f"{A.ybc.cut_length:.1f} mm (program) vs {A.cut_length_nominal:.1f} mm (nominal geometry).")
@@ -255,9 +256,9 @@ with tabs[1]:
     icons = {"pass": "✅", "warn": "⚠️", "fail": "❌"}
     dfm = pd.DataFrame(A.dfm.as_rows())
     dfm.insert(0, "", dfm["status"].map(icons))
-    st.dataframe(dfm.drop(columns=["status"]), hide_index=True, use_container_width=True, height=420)
+    st.dataframe(dfm.drop(columns=["status"]), hide_index=True, width="stretch", height=420)
     st.markdown("**Per-bend estimates** (engineering estimates; see ENGINEERING_NOTES)")
-    st.dataframe(pd.DataFrame(A.bends), hide_index=True, use_container_width=True)
+    st.dataframe(pd.DataFrame(A.bends), hide_index=True, width="stretch")
 
 # ------------------------------------------------------------------ 3. Springback
 with tabs[2]:
@@ -289,7 +290,7 @@ with tabs[2]:
                              "RMSE": f"{v['rmse']['mean']:.3f}", "R²": f"{v['r2']['mean']:.2f} ± {v['r2']['sd']:.2f}"})
         c1, c2 = st.columns([3, 2])
         with c1:
-            st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
             oof = ART / "springback" / "oof_predictions.csv"
             if oof.exists():
                 df = pd.read_csv(oof)
@@ -301,21 +302,21 @@ with tabs[2]:
                                          marker=dict(color=ORANGE, size=6, opacity=0.65), name=key))
                 fig.update_layout(height=360, margin=dict(l=10, r=10, t=30, b=10), title="Parity, out-of-fold",
                                   xaxis_title="measured springback (deg)", yaxis_title="predicted (deg)", showlegend=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width="stretch")
         with c2:
             shap = read_json("springback/shap_importance_setup.json")
             if shap:
                 s = pd.DataFrame(shap).head(7)[::-1]
                 fig = go.Figure(go.Bar(x=s["mean_abs_shap_deg"], y=s["feature"], orientation="h", marker_color=ORANGE))
                 fig.update_layout(height=300, margin=dict(l=10, r=10, t=30, b=10), title="SHAP: mean |effect| (deg)")
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width="stretch")
             pol = {"none": "No compensation", "physics": "Physics estimate", "offset": "One constant offset",
                    "ml": "ML (setup)", "ml_in_process": "ML + process signals"}
             fig = go.Figure(go.Bar(x=[pol[k] for k in cl["fpy"]], y=[100 * v for v in cl["fpy"].values()],
                                    marker_color=[MUTED, MUTED, STEEL, ORANGE, ORANGE]))
             fig.update_layout(height=280, margin=dict(l=10, r=10, t=30, b=10), yaxis_title="% within ±0.5°",
                               title="Closed loop on real runs")
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         st.markdown("**What-if: predict springback for a machine setup** (ML, valid for the TubeBEND tube only)")
         if meta:
             lv = meta["setup_levels"]
@@ -357,13 +358,13 @@ with tabs[3]:
             box(b.contact[0], b.contact[1], 0, b.length, b.width, b.height - part.od / 2 - 0.5, b.yaw_deg, col,
                 f"{b.id} {b.datum} {'clamp ' if b.clamp else ''}{b.sensor}".strip())
         fig.update_layout(height=520, margin=dict(l=0, r=0, t=10, b=0), showlegend=False, scene=dict(aspectmode="data"))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         st.caption("Orange blocks carry datums (A: 3 vertical supports, B: 2 lateral on the longest straight; C: end "
                    "stop at the tube start). Grooves are cut by a rod of OD + 2 x clearance swept along the true centerline.")
     with c2:
         st.markdown(f"**Checking fixture** · plate {w:.0f} x {h:.0f} x {tt:.0f} mm · {len(fx.blocks)} blocks · groove "
                     f"clearance {fx.clearance} mm (go/no-go)")
-        st.dataframe(pd.DataFrame(fx.block_table()), hide_index=True, use_container_width=True, height=300)
+        st.dataframe(pd.DataFrame(fx.block_table()), hide_index=True, width="stretch", height=300)
         if fx.rejected:
             st.caption("Blocks not placed: " + "; ".join(fx.rejected))
         fdir = ART / "parts" / part.part_no / "fixture"
@@ -387,7 +388,7 @@ with tabs[3]:
     for a_, b_, cond in TRANSITIONS:
         dot.append(f'{a_.value}->{b_.value}[label="{cond}"];')
     dot.append("}")
-    st.graphviz_chart("".join(dot), use_container_width=True)
+    st.graphviz_chart("".join(dot), width="stretch")
     n = sum(b.clamp for b in fx.blocks)
     if "station" not in st.session_state or st.session_state.get("station_part") != part.part_no:
         st.session_state.station = Station(part.part_no, n)
@@ -423,7 +424,7 @@ with tabs[3]:
                   "passed": stn.passed, "failed": stn.failed, "reason": stn.reason or "-"})
         if stn.history:
             st.dataframe(pd.DataFrame(stn.history[-8:], columns=["from", "to", "because"]).astype(str), hide_index=True)
-    st.dataframe(pd.DataFrame(A.io), hide_index=True, use_container_width=True)
+    st.dataframe(pd.DataFrame(A.io), hide_index=True, width="stretch")
     st.caption("I/O addresses are illustrative (Siemens-style notation).")
 
 # ------------------------------------------------------------------ 5. Line and kaizen
@@ -470,18 +471,18 @@ with tabs[4]:
         fig.add_hline(y=line.takt_s, line_dash="dash", line_color=INK, annotation_text=f"takt {line.takt_s:.1f} s")
         fig.update_layout(barmode="stack", height=380, title=t("yamazumi"), yaxis_title="seconds",
                           margin=dict(l=10, r=10, t=40, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
     with c2:
         oee = pd.DataFrame({k: {"OEE": v.mean} for k, v in res["oee"].items()}).T.reset_index(names="station")
         fig = go.Figure(go.Bar(x=oee["station"], y=100 * oee["OEE"], marker_color=STEEL))
         fig.update_layout(height=380, title=f"{t('oee')} per station (A x P x Q), %", margin=dict(l=10, r=10, t=40, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
     kz = read_json("line/kaizen_results.json")
     if kz:
         st.markdown(f"**Kaizen chain (recorded run, {kz['reps']} replications x {kz['days']:g} days, common random "
                     f"numbers):** throughput {kz['throughput_gain_pct']:+.1f}%, scrap {kz['scrap_change_pts']:+.2f} points")
-        st.dataframe(pd.DataFrame(kz["rows"]).drop(columns=["note"]), hide_index=True, use_container_width=True)
-        st.dataframe(pd.DataFrame(kz["smed"]), hide_index=True, use_container_width=True)
+        st.dataframe(pd.DataFrame(kz["rows"]).drop(columns=["note"]), hide_index=True, width="stretch")
+        st.dataframe(pd.DataFrame(kz["smed"]), hide_index=True, width="stretch")
 
 # ------------------------------------------------------------------ 6. Process sheet
 with tabs[5]:
@@ -498,7 +499,7 @@ with tabs[5]:
     from pipeforge.process_sheet import HEADERS, operations
 
     st.dataframe(pd.DataFrame(operations(A), columns=[f"{ja} / {en}" for en, ja in HEADERS]), hide_index=True,
-                 use_container_width=True)
+                 width="stretch")
     st.markdown("**Engineering summary**")
     s = llm_assist.summarize(A.summary())
     st.write(s["text"])

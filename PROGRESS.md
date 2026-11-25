@@ -42,7 +42,7 @@ the first item not marked done. Research notes are in
 | STUDY_GUIDE, 30 Q&A | done: `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md`, `PipeForge_Interview_QA.md` |
 | GitHub repo + push | done: https://github.com/Mr-Bathwal/pipeforge (CI green on 93d3a4e) |
 | Showcase site deploy | done: https://pipeforge-site.vercel.app (Vercel project `pipeforge-site`, root `site/`, auto-deploys on push to main; live-tested desktop, 375 px, reduced motion, EN/JA, no console errors) |
-| Streamlit Cloud app deploy | waiting for the user (share.streamlit.io login); Vercel cannot host Streamlit |
+| Streamlit Cloud app deploy | done: https://pipeforge.streamlit.app (Python 3.12, requirements.txt, auto-redeploys on push; live-tested every tab, station scans, line toggles, sample switch, JA) |
 | Demo video | the user records it from the shot list |
 
 ## Key results (all from committed artifacts)
