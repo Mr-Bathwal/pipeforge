@@ -33,14 +33,14 @@ the first item not marked done. Research notes are in
 | M7 process sheet, grounded LLM assistant | done |
 | Streamlit app (AppTest smoke tests) | done |
 | Artifacts for 6 parts | done (brake-line fixture CAD skipped, see above) |
-| 3D showcase site (`site/`) | site agent finishing app.js and verifying (11:40); not committed yet |
+| 3D showcase site (`site/`) | done: committed 0b547ed, checked in the preview browser (no console errors) |
 | README, README_ja | done |
 | docs: ENGINEERING_NOTES, FIXTURE_DESIGN, KAIZEN_A3, LINE_TRANSFER_PLAYBOOK, ARCHITECTURE, MODEL_CARD | done |
 | figures script, CI workflow, Pages workflow, LICENSE | done |
 | Study PFMEA sheet | done (141 tests) |
 | CV pack + pitch + demo shot list | done: `C:\Users\goura\Downloads\PipeForge_CV_and_Pitch.md` (fill links after deploy) |
 | STUDY_GUIDE, 30 Q&A | agent writing `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md` and `PipeForge_Interview_QA.md` |
-| GitHub repo + push | waiting for the user to create the empty public repo `Mr-Bathwal/pipeforge` (gh CLI not installed) |
+| GitHub repo + push | done: https://github.com/Mr-Bathwal/pipeforge (CI green on 93d3a4e) |
 | Streamlit Cloud deploy, Pages source = GitHub Actions | waiting for the user (their logins) |
 | Demo video | the user records it from the shot list |
 
