@@ -41,7 +41,8 @@ the first item not marked done. Research notes are in
 | CV pack + pitch + demo shot list | done: `C:\Users\goura\Downloads\PipeForge_CV_and_Pitch.md` (fill links after deploy) |
 | STUDY_GUIDE, 30 Q&A | done: `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md`, `PipeForge_Interview_QA.md` |
 | GitHub repo + push | done: https://github.com/Mr-Bathwal/pipeforge (CI green on 93d3a4e) |
-| Streamlit Cloud deploy, Pages source = GitHub Actions | waiting for the user (their logins) |
+| Showcase site deploy | done: https://pipeforge-site.vercel.app (Vercel project `pipeforge-site`, root `site/`, auto-deploys on push to main; live-tested desktop, 375 px, reduced motion, EN/JA, no console errors) |
+| Streamlit Cloud app deploy | waiting for the user (share.streamlit.io login); Vercel cannot host Streamlit |
 | Demo video | the user records it from the shot list |
 
 ## Key results (all from committed artifacts)
