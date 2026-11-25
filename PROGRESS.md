@@ -33,12 +33,16 @@ the first item not marked done. Research notes are in
 | M7 process sheet, grounded LLM assistant | done |
 | Streamlit app (AppTest smoke tests) | done |
 | Artifacts for 6 parts | done (brake-line fixture CAD skipped, see above) |
-| 3D showcase site (`site/`) | partial: index.html, style.css and 3D modules exist; app.js missing; not verified |
-| README, README_ja | todo |
-| docs: ENGINEERING_NOTES, FIXTURE_DESIGN, KAIZEN_A3, LINE_TRANSFER_PLAYBOOK, ARCHITECTURE, MODEL_CARD | todo |
-| figures script, CI workflow | todo |
-| GitHub repo + Streamlit deploy (needs the user's OK and logins) | todo |
-| CV pack, STUDY_GUIDE, 30 Q&A, demo shot list | todo |
+| 3D showcase site (`site/`) | site agent finishing app.js and verifying (11:40); not committed yet |
+| README, README_ja | done |
+| docs: ENGINEERING_NOTES, FIXTURE_DESIGN, KAIZEN_A3, LINE_TRANSFER_PLAYBOOK, ARCHITECTURE, MODEL_CARD | done |
+| figures script, CI workflow, Pages workflow, LICENSE | done |
+| Study PFMEA sheet | done (141 tests) |
+| CV pack + pitch + demo shot list | done: `C:\Users\goura\Downloads\PipeForge_CV_and_Pitch.md` (fill links after deploy) |
+| STUDY_GUIDE, 30 Q&A | agent writing `C:\Users\goura\Downloads\PipeForge_STUDY_GUIDE.md` and `PipeForge_Interview_QA.md` |
+| GitHub repo + push | waiting for the user to create the empty public repo `Mr-Bathwal/pipeforge` (gh CLI not installed) |
+| Streamlit Cloud deploy, Pages source = GitHub Actions | waiting for the user (their logins) |
+| Demo video | the user records it from the shot list |
 
 ## Key results (all from committed artifacts)
 
