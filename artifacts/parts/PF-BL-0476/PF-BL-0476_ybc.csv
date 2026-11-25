@@ -1,0 +1,9 @@
+# PipeForge YBC program for PF-BL-0476
+# springback model: physics; cut length 587.27 mm
+# Y = feed mm, B = rotation deg, C = die angle deg (overbend included)
+BEND,Y,B,C
+1,113.49,0.00,57.11
+2,61.62,24.26,36.69
+3,110.46,163.97,75.60
+4,133.37,42.03,27.82
+END,127.03,,

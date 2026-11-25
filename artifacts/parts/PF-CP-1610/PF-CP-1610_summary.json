@@ -1,0 +1,72 @@
+{
+ "part_no": "PF-CP-1610",
+ "name": "Coolant pipe (aluminium)",
+ "material": "A6063-T5",
+ "od_mm": 16.0,
+ "wall_mm": 1.0,
+ "n_bends": 3,
+ "cut_length_nominal_mm": 598.2,
+ "cut_length_program_mm": 597.8,
+ "springback_model": "physics",
+ "dfm_status": "fail",
+ "dfm_counts": {
+  "pass": 12,
+  "warn": 0,
+  "fail": 1
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 20.0% needed > 8% minimum for A6063-T5: bend in a softer temper (e.g. O or T4, then age) or raise CLR to >= 100 mm"
+ ],
+ "tooling": "1-ball (regular pitch) mandrel, no wiper",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 45.0,
+   "C_deg": 45.59,
+   "springback_deg": 0.588,
+   "CLR_mm": 40.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.833,
+   "thinning_pct": 16.7,
+   "physics_band_deg": [
+    0.488,
+    0.687
+   ]
+  },
+  {
+   "bend": 2,
+   "A_deg": 90.0,
+   "C_deg": 91.18,
+   "springback_deg": 1.175,
+   "CLR_mm": 40.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.833,
+   "thinning_pct": 16.7,
+   "physics_band_deg": [
+    0.976,
+    1.375
+   ]
+  },
+  {
+   "bend": 3,
+   "A_deg": 69.44,
+   "C_deg": 70.35,
+   "springback_deg": 0.907,
+   "CLR_mm": 40.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.833,
+   "thinning_pct": 16.7,
+   "physics_band_deg": [
+    0.753,
+    1.061
+   ]
+  }
+ ],
+ "fixture_blocks": 10,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

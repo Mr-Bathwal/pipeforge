@@ -1,0 +1,82 @@
+{
+ "PF-CP-1610": {
+  "name": "Coolant pipe (aluminium)",
+  "springback_model": "physics",
+  "dfm": "fail",
+  "cut_length_mm": 597.8,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 28188.0,
+  "fixture": {
+   "step": "artifacts/parts/PF-CP-1610/fixture/PF-CP-1610_fixture.step",
+   "block_stls": "artifacts/parts/PF-CP-1610/fixture/print_blocks",
+   "stl": "artifacts/parts/PF-CP-1610/fixture/PF-CP-1610_fixture.stl"
+  },
+  "seconds": 42.6
+ },
+ "PF-FL-0807": {
+  "name": "Fuel feed line (4W)",
+  "springback_model": "none",
+  "dfm": "warn",
+  "cut_length_mm": 774.4,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 12432.3,
+  "fixture": {
+   "step": "artifacts/parts/PF-FL-0807/fixture/PF-FL-0807_fixture.step",
+   "block_stls": "artifacts/parts/PF-FL-0807/fixture/print_blocks",
+   "stl": "artifacts/parts/PF-FL-0807/fixture/PF-FL-0807_fixture.stl"
+  },
+  "seconds": 15.0
+ },
+ "PF-FT-2541": {
+  "name": "Frame sub-tube",
+  "springback_model": "none",
+  "dfm": "warn",
+  "cut_length_mm": 865.1,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 78921.6,
+  "fixture": {
+   "step": "artifacts/parts/PF-FT-2541/fixture/PF-FT-2541_fixture.step",
+   "block_stls": "artifacts/parts/PF-FT-2541/fixture/print_blocks",
+   "stl": "artifacts/parts/PF-FT-2541/fixture/PF-FT-2541_fixture.stl"
+  },
+  "seconds": 14.8
+ },
+ "PF-HB-2201": {
+  "name": "Motorcycle handlebar",
+  "springback_model": "physics",
+  "dfm": "warn",
+  "cut_length_mm": 907.8,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 94025.4,
+  "fixture": {
+   "step": "artifacts/parts/PF-HB-2201/fixture/PF-HB-2201_fixture.step",
+   "block_stls": "artifacts/parts/PF-HB-2201/fixture/print_blocks",
+   "stl": "artifacts/parts/PF-HB-2201/fixture/PF-HB-2201_fixture.stl"
+  },
+  "seconds": 15.8
+ },
+ "PF-LP-2210": {
+  "name": "Lubrication pipe (TubeBEND tube)",
+  "springback_model": "ml",
+  "dfm": "warn",
+  "cut_length_mm": 638.3,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 42137.1,
+  "fixture": {
+   "step": "artifacts/parts/PF-LP-2210/fixture/PF-LP-2210_fixture.step",
+   "block_stls": "artifacts/parts/PF-LP-2210/fixture/print_blocks",
+   "stl": "artifacts/parts/PF-LP-2210/fixture/PF-LP-2210_fixture.stl"
+  },
+  "seconds": 25.4
+ },
+ "PF-BL-0476": {
+  "name": "Brake line (4W, 3/16 in)",
+  "springback_model": "physics",
+  "dfm": "warn",
+  "cut_length_mm": 587.3,
+  "drawing_scale": "1:5",
+  "step_volume_mm3": 5243.9,
+  "fixture": "CAD skipped: OD 4.76 mm < 6.0 mm (see PROGRESS.md)",
+  "seconds": 27.5
+ }
+}

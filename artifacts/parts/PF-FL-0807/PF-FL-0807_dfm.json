@@ -1,0 +1,160 @@
+{
+ "status": "warn",
+ "counts": {
+  "pass": 16,
+  "warn": 1,
+  "fail": 0
+ },
+ "sequence": "start end first (as drawn)",
+ "tooling": {
+  "wall_factor": 11.428571428571429,
+  "d_of_bend": 2.5,
+  "row": 10,
+  "difficulty_factor": 4.571428571428571,
+  "notes": [],
+  "code": "R0N",
+  "mandrel": "plug (regular pitch)",
+  "wiper": "no wiper",
+  "zone": 1,
+  "class": "plug (regular pitch) mandrel, no wiper",
+  "col": 2.5
+ },
+ "checks": [
+  {
+   "rule": "D1",
+   "title": "D of bend",
+   "status": "pass",
+   "detail": "CLR/OD = 2.50 (manageable)",
+   "where": "bend 1",
+   "source": "Pines (The Fabricator 2016): 1D extreme, 2D severe, 3D optimal"
+  },
+  {
+   "rule": "D1",
+   "title": "D of bend",
+   "status": "pass",
+   "detail": "CLR/OD = 2.50 (manageable)",
+   "where": "bend 2",
+   "source": "Pines (The Fabricator 2016): 1D extreme, 2D severe, 3D optimal"
+  },
+  {
+   "rule": "D1",
+   "title": "D of bend",
+   "status": "pass",
+   "detail": "CLR/OD = 2.50 (manageable)",
+   "where": "bend 3",
+   "source": "Pines (The Fabricator 2016): 1D extreme, 2D severe, 3D optimal"
+  },
+  {
+   "rule": "D1",
+   "title": "D of bend",
+   "status": "pass",
+   "detail": "CLR/OD = 2.50 (manageable)",
+   "where": "bend 4",
+   "source": "Pines (The Fabricator 2016): 1D extreme, 2D severe, 3D optimal"
+  },
+  {
+   "rule": "D1",
+   "title": "D of bend",
+   "status": "pass",
+   "detail": "CLR/OD = 2.50 (manageable)",
+   "where": "bend 5",
+   "source": "Pines (The Fabricator 2016): 1D extreme, 2D severe, 3D optimal"
+  },
+  {
+   "rule": "D2",
+   "title": "Wall factor and tooling",
+   "status": "pass",
+   "detail": "WF 11.4 at 2.50D: plug (regular pitch) mandrel, no wiper (chart code R0N)",
+   "where": "tightest bend",
+   "source": "Bend Tooling Inc. mandrel and wiper selection chart (ENGINEERING_NOTES 5.2)"
+  },
+  {
+   "rule": "D3",
+   "title": "Straight between bends",
+   "status": "pass",
+   "detail": "110.0 mm >= 24.0 mm",
+   "where": "between bends 1 and 2",
+   "source": "Bend Tooling clamp length; Pines distance between bends (ENGINEERING_NOTES 5.3)"
+  },
+  {
+   "rule": "D3",
+   "title": "Straight between bends",
+   "status": "pass",
+   "detail": "80.0 mm >= 24.0 mm",
+   "where": "between bends 2 and 3",
+   "source": "Bend Tooling clamp length; Pines distance between bends (ENGINEERING_NOTES 5.3)"
+  },
+  {
+   "rule": "D3",
+   "title": "Straight between bends",
+   "status": "pass",
+   "detail": "185.9 mm >= 24.0 mm",
+   "where": "between bends 3 and 4",
+   "source": "Bend Tooling clamp length; Pines distance between bends (ENGINEERING_NOTES 5.3)"
+  },
+  {
+   "rule": "D3",
+   "title": "Straight between bends",
+   "status": "pass",
+   "detail": "147.1 mm >= 24.0 mm",
+   "where": "between bends 4 and 5",
+   "source": "Bend Tooling clamp length; Pines distance between bends (ENGINEERING_NOTES 5.3)"
+  },
+  {
+   "rule": "D4",
+   "title": "Leading end",
+   "status": "pass",
+   "detail": "first straight 60.0 mm vs 16.0 mm",
+   "where": "tube start",
+   "source": "McGrew (The Fabricator 2008): first straight >= 2D, 1.5D with boost"
+  },
+  {
+   "rule": "D4",
+   "title": "Trailing end",
+   "status": "pass",
+   "detail": "last straight 60.0 mm vs collet depth 4.0 mm",
+   "where": "tube end",
+   "source": "McGrew (The Fabricator 2008): collet depth >= 0.5D"
+  },
+  {
+   "rule": "D5",
+   "title": "Bend angles",
+   "status": "pass",
+   "detail": "all within 180 deg",
+   "where": "",
+   "source": "machine data"
+  },
+  {
+   "rule": "D6",
+   "title": "Collision while bending",
+   "status": "pass",
+   "detail": "no contact with floor, bed or head",
+   "where": "all bends",
+   "source": "machine-frame simulation"
+  },
+  {
+   "rule": "D7",
+   "title": "Self-interference",
+   "status": "pass",
+   "detail": "closest approach between distant tube sections: 67.8 mm centre to centre (clear)",
+   "where": "",
+   "source": "geometry"
+  },
+  {
+   "rule": "D8",
+   "title": "Elongation required",
+   "status": "warn",
+   "detail": "20.0% needed at the extrados; JIS G 3445 does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification",
+   "where": "tightest bend",
+   "source": "Pines/Unison: elongation = (OD/2)/CLR; JIS G 3445 Table 3 note a), JIS G 3459 clause 6.1"
+  },
+  {
+   "rule": "D9",
+   "title": "Wall thinning and ovality (estimates)",
+   "status": "pass",
+   "detail": "extrados wall 0.58 mm (16.7% thinner); ovality without a mandrel about 3.2% (typical acceptance 5-8%), lower with one",
+   "where": "tightest bend",
+   "source": "Bend Tooling thinning rule; Tube Form Solutions: ovality = 0.7 x difficulty factor"
+  }
+ ]
+}

@@ -25,6 +25,10 @@ from pipeforge.pipeline import analyze, in_tubebend_domain  # noqa: E402
 from pipeforge.process_sheet import write_excel, write_pdf  # noqa: E402
 
 OUT = ROOT / "artifacts" / "parts"
+#: Fixture CAD is skipped below this OD: for the 4.76 mm brake line the OpenCascade boolean that
+#: cuts the swept groove into the blocks runs away with memory (it took the whole session down
+#: three times). The fixture design table is still produced; see PROGRESS.md.
+MIN_FIXTURE_CAD_OD = 6.0
 
 
 def build(part_no: str | None = None) -> dict:
@@ -55,8 +59,11 @@ def build(part_no: str | None = None) -> dict:
 
             cq.exporters.export(solid, str(d / f"{pn}.stl"), tolerance=0.1, angularTolerance=0.25)
             files["step_volume_mm3"] = round(cad.solid_volume(solid), 1)
-            fx_paths = export_fixture(a.fixture, d / "fixture")
-            files["fixture"] = {k: str(Path(v).relative_to(ROOT)).replace("\\", "/") for k, v in fx_paths.items()}
+            if part.od >= MIN_FIXTURE_CAD_OD:
+                fx_paths = export_fixture(a.fixture, d / "fixture")
+                files["fixture"] = {k: str(Path(v).relative_to(ROOT)).replace("\\", "/") for k, v in fx_paths.items()}
+            else:
+                files["fixture"] = f"CAD skipped: OD {part.od} mm < {MIN_FIXTURE_CAD_OD} mm (see PROGRESS.md)"
         index[pn] = {"name": part.name, "springback_model": a.springback_model, "dfm": a.dfm.status,
                      "cut_length_mm": round(a.ybc.cut_length, 1), **files, "seconds": round(time.time() - t0, 1)}
         print(pn, index[pn])

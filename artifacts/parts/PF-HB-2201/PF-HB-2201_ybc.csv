@@ -1,0 +1,9 @@
+# PipeForge YBC program for PF-HB-2201
+# springback model: physics; cut length 907.83 mm
+# Y = feed mm, B = rotation deg, C = die angle deg (overbend included)
+BEND,Y,B,C
+1,102.86,0.00,56.45
+2,104.98,180.00,56.45
+3,255.71,0.00,56.45
+4,104.98,180.00,56.45
+END,102.86,,

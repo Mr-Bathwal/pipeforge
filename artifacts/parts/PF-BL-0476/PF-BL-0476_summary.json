@@ -1,0 +1,87 @@
+{
+ "part_no": "PF-BL-0476",
+ "name": "Brake line (4W, 3/16 in)",
+ "material": "SUS304",
+ "od_mm": 4.76,
+ "wall_mm": 0.7,
+ "n_bends": 4,
+ "cut_length_nominal_mm": 587.3,
+ "cut_length_program_mm": 587.3,
+ "springback_model": "physics",
+ "dfm_status": "warn",
+ "dfm_counts": {
+  "pass": 14,
+  "warn": 1,
+  "fail": 0
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 19.8% needed at the extrados; JIS G 3459 (SUS304TP) does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification"
+ ],
+ "tooling": "empty bend (no mandrel)",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 56.31,
+   "C_deg": 57.11,
+   "springback_deg": 0.796,
+   "CLR_mm": 12.0,
+   "D_of_bend": 2.52,
+   "elongation_needed_pct": 19.8,
+   "wall_outer_mm": 0.584,
+   "thinning_pct": 16.6,
+   "physics_band_deg": [
+    0.45,
+    1.142
+   ]
+  },
+  {
+   "bend": 2,
+   "A_deg": 36.18,
+   "C_deg": 36.69,
+   "springback_deg": 0.511,
+   "CLR_mm": 12.0,
+   "D_of_bend": 2.52,
+   "elongation_needed_pct": 19.8,
+   "wall_outer_mm": 0.584,
+   "thinning_pct": 16.6,
+   "physics_band_deg": [
+    0.289,
+    0.734
+   ]
+  },
+  {
+   "bend": 3,
+   "A_deg": 74.54,
+   "C_deg": 75.6,
+   "springback_deg": 1.054,
+   "CLR_mm": 12.0,
+   "D_of_bend": 2.52,
+   "elongation_needed_pct": 19.8,
+   "wall_outer_mm": 0.584,
+   "thinning_pct": 16.6,
+   "physics_band_deg": [
+    0.596,
+    1.512
+   ]
+  },
+  {
+   "bend": 4,
+   "A_deg": 27.43,
+   "C_deg": 27.82,
+   "springback_deg": 0.388,
+   "CLR_mm": 12.0,
+   "D_of_bend": 2.52,
+   "elongation_needed_pct": 19.8,
+   "wall_outer_mm": 0.584,
+   "thinning_pct": 16.6,
+   "physics_band_deg": [
+    0.219,
+    0.556
+   ]
+  }
+ ],
+ "fixture_blocks": 14,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

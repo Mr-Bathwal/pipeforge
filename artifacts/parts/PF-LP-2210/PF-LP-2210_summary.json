@@ -1,0 +1,72 @@
+{
+ "part_no": "PF-LP-2210",
+ "name": "Lubrication pipe (TubeBEND tube)",
+ "material": "SUS304",
+ "od_mm": 22.0,
+ "wall_mm": 1.0,
+ "n_bends": 3,
+ "cut_length_nominal_mm": 638.7,
+ "cut_length_program_mm": 638.3,
+ "springback_model": "ml",
+ "dfm_status": "warn",
+ "dfm_counts": {
+  "pass": 12,
+  "warn": 1,
+  "fail": 0
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 33.3% needed at the extrados; JIS G 3459 (SUS304TP) does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification"
+ ],
+ "tooling": "2-ball (regular pitch) mandrel, inserted mandrel + wiper die",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 47.0,
+   "C_deg": 49.75,
+   "springback_deg": 2.753,
+   "CLR_mm": 33.0,
+   "D_of_bend": 1.5,
+   "elongation_needed_pct": 33.3,
+   "wall_outer_mm": 0.75,
+   "thinning_pct": 25.0,
+   "physics_band_deg": [
+    0.2,
+    0.507
+   ]
+  },
+  {
+   "bend": 2,
+   "A_deg": 47.0,
+   "C_deg": 49.75,
+   "springback_deg": 2.753,
+   "CLR_mm": 33.0,
+   "D_of_bend": 1.5,
+   "elongation_needed_pct": 33.3,
+   "wall_outer_mm": 0.75,
+   "thinning_pct": 25.0,
+   "physics_band_deg": [
+    0.2,
+    0.507
+   ]
+  },
+  {
+   "bend": 3,
+   "A_deg": 60.0,
+   "C_deg": 63.51,
+   "springback_deg": 3.514,
+   "CLR_mm": 33.0,
+   "D_of_bend": 1.5,
+   "elongation_needed_pct": 33.3,
+   "wall_outer_mm": 0.75,
+   "thinning_pct": 25.0,
+   "physics_band_deg": [
+    0.255,
+    0.647
+   ]
+  }
+ ],
+ "fixture_blocks": 11,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

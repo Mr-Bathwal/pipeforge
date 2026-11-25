@@ -1,0 +1,87 @@
+{
+ "part_no": "PF-HB-2201",
+ "name": "Motorcycle handlebar",
+ "material": "STKM13A",
+ "od_mm": 22.2,
+ "wall_mm": 1.6,
+ "n_bends": 4,
+ "cut_length_nominal_mm": 908.0,
+ "cut_length_program_mm": 907.8,
+ "springback_model": "physics",
+ "dfm_status": "warn",
+ "dfm_counts": {
+  "pass": 14,
+  "warn": 1,
+  "fail": 0
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 18.5% needed at the extrados; JIS G 3445 does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification"
+ ],
+ "tooling": "plug (regular pitch) mandrel, no wiper",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 55.86,
+   "C_deg": 56.45,
+   "springback_deg": 0.591,
+   "CLR_mm": 60.0,
+   "D_of_bend": 2.7,
+   "elongation_needed_pct": 18.5,
+   "wall_outer_mm": 1.35,
+   "thinning_pct": 15.6,
+   "physics_band_deg": [
+    0.434,
+    0.748
+   ]
+  },
+  {
+   "bend": 2,
+   "A_deg": 55.86,
+   "C_deg": 56.45,
+   "springback_deg": 0.591,
+   "CLR_mm": 60.0,
+   "D_of_bend": 2.7,
+   "elongation_needed_pct": 18.5,
+   "wall_outer_mm": 1.35,
+   "thinning_pct": 15.6,
+   "physics_band_deg": [
+    0.434,
+    0.748
+   ]
+  },
+  {
+   "bend": 3,
+   "A_deg": 55.86,
+   "C_deg": 56.45,
+   "springback_deg": 0.591,
+   "CLR_mm": 60.0,
+   "D_of_bend": 2.7,
+   "elongation_needed_pct": 18.5,
+   "wall_outer_mm": 1.35,
+   "thinning_pct": 15.6,
+   "physics_band_deg": [
+    0.434,
+    0.748
+   ]
+  },
+  {
+   "bend": 4,
+   "A_deg": 55.86,
+   "C_deg": 56.45,
+   "springback_deg": 0.591,
+   "CLR_mm": 60.0,
+   "D_of_bend": 2.7,
+   "elongation_needed_pct": 18.5,
+   "wall_outer_mm": 1.35,
+   "thinning_pct": 15.6,
+   "physics_band_deg": [
+    0.434,
+    0.748
+   ]
+  }
+ ],
+ "fixture_blocks": 14,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

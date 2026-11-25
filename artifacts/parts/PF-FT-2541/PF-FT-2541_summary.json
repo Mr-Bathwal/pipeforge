@@ -1,0 +1,60 @@
+{
+ "part_no": "PF-FT-2541",
+ "name": "Frame sub-tube",
+ "material": "STKM11A",
+ "od_mm": 25.4,
+ "wall_mm": 1.2,
+ "n_bends": 3,
+ "cut_length_nominal_mm": 865.1,
+ "cut_length_program_mm": 865.1,
+ "springback_model": "none",
+ "dfm_status": "warn",
+ "dfm_counts": {
+  "pass": 12,
+  "warn": 1,
+  "fail": 0
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 16.7% needed at the extrados; JIS G 3445 does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification"
+ ],
+ "tooling": "1-ball (regular pitch) mandrel, no wiper",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 50.19,
+   "C_deg": 50.19,
+   "springback_deg": 0.0,
+   "CLR_mm": 76.0,
+   "D_of_bend": 2.99,
+   "elongation_needed_pct": 16.7,
+   "wall_outer_mm": 1.028,
+   "thinning_pct": 14.3
+  },
+  {
+   "bend": 2,
+   "A_deg": 50.19,
+   "C_deg": 50.19,
+   "springback_deg": 0.0,
+   "CLR_mm": 76.0,
+   "D_of_bend": 2.99,
+   "elongation_needed_pct": 16.7,
+   "wall_outer_mm": 1.028,
+   "thinning_pct": 14.3
+  },
+  {
+   "bend": 3,
+   "A_deg": 39.29,
+   "C_deg": 39.29,
+   "springback_deg": 0.0,
+   "CLR_mm": 76.0,
+   "D_of_bend": 2.99,
+   "elongation_needed_pct": 16.7,
+   "wall_outer_mm": 1.028,
+   "thinning_pct": 14.3
+  }
+ ],
+ "fixture_blocks": 11,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

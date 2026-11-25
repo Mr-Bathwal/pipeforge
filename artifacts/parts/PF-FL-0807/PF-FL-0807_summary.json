@@ -1,0 +1,82 @@
+{
+ "part_no": "PF-FL-0807",
+ "name": "Fuel feed line (4W)",
+ "material": "STKM11A",
+ "od_mm": 8.0,
+ "wall_mm": 0.7,
+ "n_bends": 5,
+ "cut_length_nominal_mm": 774.4,
+ "cut_length_program_mm": 774.4,
+ "springback_model": "none",
+ "dfm_status": "warn",
+ "dfm_counts": {
+  "pass": 16,
+  "warn": 1,
+  "fail": 0
+ },
+ "dfm_findings": [
+  "D8 Elongation required: 20.0% needed at the extrados; JIS G 3445 does not guarantee elongation for OD <= 40 mm: state a minimum in the purchase specification"
+ ],
+ "tooling": "plug (regular pitch) mandrel, no wiper",
+ "bend_sequence": "start end first (as drawn)",
+ "bends": [
+  {
+   "bend": 1,
+   "A_deg": 90.0,
+   "C_deg": 90.0,
+   "springback_deg": 0.0,
+   "CLR_mm": 20.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.583,
+   "thinning_pct": 16.7
+  },
+  {
+   "bend": 2,
+   "A_deg": 90.0,
+   "C_deg": 90.0,
+   "springback_deg": 0.0,
+   "CLR_mm": 20.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.583,
+   "thinning_pct": 16.7
+  },
+  {
+   "bend": 3,
+   "A_deg": 90.0,
+   "C_deg": 90.0,
+   "springback_deg": 0.0,
+   "CLR_mm": 20.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.583,
+   "thinning_pct": 16.7
+  },
+  {
+   "bend": 4,
+   "A_deg": 16.7,
+   "C_deg": 16.7,
+   "springback_deg": 0.0,
+   "CLR_mm": 20.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.583,
+   "thinning_pct": 16.7
+  },
+  {
+   "bend": 5,
+   "A_deg": 90.0,
+   "C_deg": 90.0,
+   "springback_deg": 0.0,
+   "CLR_mm": 20.0,
+   "D_of_bend": 2.5,
+   "elongation_needed_pct": 20.0,
+   "wall_outer_mm": 0.583,
+   "thinning_pct": 16.7
+  }
+ ],
+ "fixture_blocks": 14,
+ "fixture_clamps": 3,
+ "fixture_sensors": 5
+}

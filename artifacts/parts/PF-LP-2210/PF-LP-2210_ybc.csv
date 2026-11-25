@@ -1,0 +1,8 @@
+# PipeForge YBC program for PF-LP-2210
+# springback model: ml; cut length 638.30 mm
+# Y = feed mm, B = rotation deg, C = die angle deg (overbend included)
+BEND,Y,B,C
+1,149.16,0.00,49.75
+2,118.32,90.00,49.75
+3,128.04,180.00,63.51
+END,148.88,,

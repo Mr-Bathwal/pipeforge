@@ -1,0 +1,26 @@
+{
+ "PF-CP-1610": {
+  "status": "fail",
+  "name": "Coolant pipe (aluminium)"
+ },
+ "PF-FL-0807": {
+  "status": "warn",
+  "name": "Fuel feed line (4W)"
+ },
+ "PF-FT-2541": {
+  "status": "warn",
+  "name": "Frame sub-tube"
+ },
+ "PF-HB-2201": {
+  "status": "warn",
+  "name": "Motorcycle handlebar"
+ },
+ "PF-LP-2210": {
+  "status": "warn",
+  "name": "Lubrication pipe (TubeBEND tube)"
+ },
+ "PF-BL-0476": {
+  "status": "warn",
+  "name": "Brake line (4W, 3/16 in)"
+ }
+}

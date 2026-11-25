@@ -1,0 +1,8 @@
+# PipeForge YBC program for PF-CP-1610
+# springback model: physics; cut length 597.83 mm
+# Y = feed mm, B = rotation deg, C = die angle deg (overbend included)
+BEND,Y,B,C
+1,163.22,0.00,45.59
+2,55.83,90.00,91.18
+3,91.40,135.00,70.35
+END,142.80,,

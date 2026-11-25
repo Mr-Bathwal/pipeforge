@@ -1,0 +1,8 @@
+# PipeForge YBC program for PF-FT-2541
+# springback model: none; cut length 865.07 mm
+# Y = feed mm, B = rotation deg, C = die angle deg (overbend included)
+BEND,Y,B,C
+1,214.40,0.00,50.19
+2,163.11,180.00,50.19
+3,187.27,90.00,39.29
+END,115.00,,
