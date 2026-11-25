@@ -1,0 +1,4 @@
+{"part_no": "PF-CP-1610", "name": "Coolant pipe (aluminium)", "name_ja": "アルミ冷却水パイプ", "category": "4W",
+ "material": "A6063-T5", "od": 16.0, "wall": 1.0, "clr": 40.0,
+ "points": [[0,0,0],[180,0,0],[260,80,0],[260,80,160],[420,80,220]],
+ "notes": "Synthetic geometry designed for this study. Not a Yamato or customer part; material and dimensions are typical choices for this kind of tube, not taken from any drawing."}

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+data/tubebend/raw/
+*.pkl
+!artifacts/**/*.pkl
+.streamlit/secrets.toml
+.env

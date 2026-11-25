@@ -1,0 +1,21 @@
+[project]
+name = "pipeforge"
+version = "0.1.0"
+description = "AI-assisted pipe bending and production engineering study: CAD, bending programs, springback ML, fixtures, line simulation."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Gourav Kumar Bathwal" }]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = [".venv", "artifacts", "data/tubebend"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["cad: needs CadQuery", "slow: takes more than a few seconds", "tubebend: needs the downloaded TubeBEND data"]

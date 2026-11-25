@@ -1,0 +1,4 @@
+{"part_no": "PF-BL-0476", "name": "Brake line (4W, 3/16 in)", "name_ja": "四輪用ブレーキパイプ", "category": "4W",
+ "material": "SUS304", "od": 4.76, "wall": 0.7, "clr": 12.0,
+ "points": [[0,0,0],[120,0,0],[160,60,0],[160,180,30],[300,220,30],[420,220,-20]],
+ "notes": "Synthetic geometry designed for this study. Not a Yamato or customer part; material and dimensions are typical choices for this kind of tube, not taken from any drawing."}

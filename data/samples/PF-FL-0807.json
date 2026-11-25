@@ -1,0 +1,4 @@
+{"part_no": "PF-FL-0807", "name": "Fuel feed line (4W)", "name_ja": "四輪用フューエルパイプ", "category": "4W",
+ "material": "STKM11A", "od": 8.0, "wall": 0.7, "clr": 20.0,
+ "points": [[0,0,0],[0,0,80],[150,0,80],[150,120,80],[350,120,140],[520,120,140],[520,40,140]],
+ "notes": "Synthetic geometry designed for this study. Not a Yamato or customer part; material and dimensions are typical choices for this kind of tube, not taken from any drawing."}

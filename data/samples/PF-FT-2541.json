@@ -1,0 +1,4 @@
+{"part_no": "PF-FT-2541", "name": "Frame sub-tube", "name_ja": "フレームサブパイプ", "category": "2W",
+ "material": "STKM11A", "od": 25.4, "wall": 1.2, "clr": 76.0,
+ "points": [[0,0,0],[250,0,0],[400,0,180],[650,0,180],[760,90,180]],
+ "notes": "Synthetic geometry designed for this study. Not a Yamato or customer part; material and dimensions are typical choices for this kind of tube, not taken from any drawing."}

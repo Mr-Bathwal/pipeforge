@@ -1,0 +1,4 @@
+{"part_no": "PF-HB-2201", "name": "Motorcycle handlebar", "name_ja": "二輪用ハンドルバー", "category": "2W",
+ "material": "STKM13A", "od": 22.2, "wall": 1.6, "clr": 60.0,
+ "points": [[-390,-115,100],[-255,-115,100],[-160,0,20],[160,0,20],[255,-115,100],[390,-115,100]],
+ "notes": "Synthetic geometry designed for this study. Not a Yamato or customer part; material and dimensions are typical choices for this kind of tube, not taken from any drawing."}
