@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Set up Python 3.12 and dependencies (CadQuery included)
+        run: |
+          uv venv --python 3.12 .venv
+          uv pip install --python .venv/bin/python -r requirements-dev.txt
+          uv pip install --python .venv/bin/python -e .
+      - name: Lint
+        run: .venv/bin/python -m ruff check pipeforge app tests scripts
+      - name: Test
+        run: .venv/bin/python -m pytest -q
+      - name: Retrain from the committed derived data and compare
+        run: |
+          .venv/bin/python -m pipeforge.springback_ml.train > /dev/null
+          git diff --stat -- artifacts/springback/metrics.md
