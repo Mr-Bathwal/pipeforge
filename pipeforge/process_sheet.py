@@ -68,6 +68,57 @@ def operations(a: Analysis) -> list[list[str]]:
     ]
 
 
+PFMEA_COLS = ["Op", "Function", "Failure mode", "Effect", "S", "Cause", "O", "Prevention control",
+              "Detection control", "D", "RPN", "Evidence in this study"]
+
+
+def pfmea(a: Analysis) -> list[dict]:
+    """Study PFMEA for the cell. S/O/D are the author's judgement on a 1-10 scale (not a customer rating);
+    the evidence column says what in this repository supports each line."""
+    import json
+
+    from .pipeline import ML_DIR
+
+    cl_path = ML_DIR / "closed_loop.json"
+    oot = ""
+    if cl_path.exists():
+        cl = json.loads(cl_path.read_text(encoding="utf-8"))
+        oot = (f"real TubeBEND runs: {100 * (1 - cl['fpy']['offset']):.1f}% of bends outside +/-0.5 deg with one offset, "
+               f"{100 * (1 - cl['fpy']['ml']):.1f}% with ML compensation")
+    tool = a.dfm.tooling.get("class", "per chart")
+    d8 = next((c for c in a.dfm.checks if c.rule == "D8"), None)
+    rows = [
+        ("30", "Bend to angle", "Bend angle out of tolerance", "Part fails fixture; scrap or rework", 6,
+         "Springback differs from the offset used", 8, f"YBC overbend from the {a.springback_model} model",
+         "Checking fixture, 100 %", 2, oot or "closed-loop study (artifacts/springback)"),
+        ("30", "Bend without damage", "Wall thinning at extrados", "Reduced burst/fatigue strength", 7,
+         "Tight CLR, no boost", 3, f"DFM D9 estimate; tooling: {tool}", "First-article sectioning", 6,
+         "Bend Tooling thinning rule (ENGINEERING_NOTES 3.1)"),
+        ("30", "Bend without damage", "Crack at extrados", "Leak or fracture in use", 9,
+         "Material elongation below what the bend needs", 3,
+         "Elongation stated in purchase spec" + (f" ({d8.detail.split(';')[0]})" if d8 else ""),
+         "Visual 100 %; material certificate", 5, "DFM rule D8, JIS elongation note"),
+        ("30", "Bend without damage", "Ovality / wrinkling", "Flow restriction, fit problem", 5,
+         "Mandrel or wiper not per chart", 4, f"Mandrel and wiper per Bend Tooling chart: {tool}",
+         "Go/no-go groove in fixture", 4, "DFM rule D2; TubeBEND ovality 2.5-6.6 % with mandrel"),
+        ("30", "Program correct for part", "Wrong program / wrong die set", "Whole batch wrong", 8,
+         "Changeover error", 3, "SMED checklist; program pre-loaded externally", "First piece on fixture after changeover",
+         3, "kaizen.SMED_STEPS"),
+        ("50", "Detect bad parts", "Bad part passes inspection", "Defect reaches customer", 9,
+         "Sensor fault or wrong part on fixture", 2, "Barcode check before clamping; debounce",
+         "PASS only with every sensor ON (interlock)", 2, "station.py; Hypothesis test over 300 input streams"),
+        ("50", "Segregate rejects", "Rejected part mixed with good", "Defect reaches customer", 9,
+         "Operator puts NG part back", 3, "Station locked until NG-bin sensor sees the part", "NG bin sensor", 2,
+         "station.py FAIL state"),
+        ("10", "Cut to length", "Blank too short/long", "Ends out of position", 5, "Stop gauge set wrong", 3,
+         f"Program cut length {a.ybc.cut_length:.1f} mm", "Fixture end stops", 3, "compensation.py cut length"),
+    ]
+    out = []
+    for op, fn, fm, eff, s, cause, o, prev, det, d, ev in rows:
+        out.append(dict(zip(PFMEA_COLS, [op, fn, fm, eff, s, cause, o, prev, det, d, s * o * d, ev], strict=True)))
+    return out
+
+
 def header_info(a: Analysis) -> list[tuple[str, str]]:
     p = a.part
     return [
@@ -149,6 +200,7 @@ def write_excel(a: Analysis, path: str | Path) -> Path:
     table("Bends (estimates)", [{k: (str(v) if isinstance(v, list) else v) for k, v in b.items()} for b in a.bends])
     table("DFM", a.dfm.as_rows())
     table("治具 Fixture", a.fixture.block_table())
+    table("PFMEA (study)", pfmea(a))
     table("I-O list", a.io)
     notes = wb.create_sheet("Notes")
     for i, line in enumerate((
@@ -157,6 +209,7 @@ def write_excel(a: Analysis, path: str | Path) -> Path:
         "Wall thinning and physics springback are engineering estimates (docs/ENGINEERING_NOTES.md).",
         "The ML springback model is valid only for the TubeBEND tube and tooling.",
         "Japanese headers were written while learning; not reviewed by a native speaker.",
+        "PFMEA ratings (S, O, D) are the author's judgement for study, not a customer or plant rating.",
     ), start=1):
         notes.cell(i, 1, line)
     wb.save(path)

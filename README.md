@@ -92,7 +92,7 @@ That is **+48.5% throughput and −10.9 points of scrap** on the synthetic line.
 
 ### Process sheet (工程表)
 
-An Excel and PDF control plan with EN/JP headers (工程, 設備, 管理項目, 検査方法, 頻度, 異常処置). It is filled from the computed program, DFM, fixture and station; welding parameters point to the WPS instead of being invented.
+An Excel and PDF control plan with EN/JP headers (工程, 設備, 管理項目, 検査方法, 頻度, 異常処置). It is filled from the computed program, DFM, fixture and station; welding parameters point to the WPS instead of being invented. A **study PFMEA** sheet links each failure mode to the controls PipeForge generates. The bend-angle line cites the real result: 11.7% of bends out of tolerance with one offset, 0.3% with ML. The S, O and D ratings are the author's judgement.
 
 The optional LLM summary (any OpenAI-compatible key; off by default) is **rejected if it contains any number not in the computed data**.
 
@@ -102,7 +102,7 @@ The optional LLM summary (any OpenAI-compatible key; off by default) is **reject
 |---|---|---|
 | CAD Design | `cad.py`, `mesh.py` | STEP/STL for 6 parts; solid volume = annulus × developed length to 1e-15 |
 | Engineering Drawing Reading | `drawing.py` | A3 third-angle drawings with bend table, title block, revisions |
-| Manufacturing / Production Engineering | `compensation.py`, `dfm.py`, `process_sheet.py` | XYZ-to-LRA/YBC programs, sourced DFM rules, 工程表 |
+| Manufacturing / Production Engineering | `compensation.py`, `dfm.py`, `process_sheet.py` | XYZ-to-LRA/YBC programs, sourced DFM rules, 工程表, study PFMEA |
 | Mechanical Engineering Fundamentals | `mechanics.py`, [ENGINEERING_NOTES](docs/ENGINEERING_NOTES.md) | Elastic–plastic springback, wall thinning, ovality, worked examples |
 | Jig & Fixture Design | `fixture.py`, [FIXTURE_DESIGN](docs/FIXTURE_DESIGN.md) | Grooved-block fixture, 3-2-1 datums, go/no-go CAD test, printable blocks |
 | Machine & Automation Design | `station.py` | PLC-style sequence, interlocks, I/O list |

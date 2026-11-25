@@ -98,3 +98,13 @@ def test_without_a_key_the_feature_is_off(monkeypatch):
     monkeypatch.delenv("PIPEFORGE_LLM_API_KEY", raising=False)
     assert not llm_assist.available()
     assert llm_assist.summarize(analyze(LP).summary())["source"] == "template"
+
+
+def test_study_pfmea_links_failures_to_real_controls():
+    from pipeforge.process_sheet import pfmea
+
+    rows = pfmea(analyze(LP, "ml"))
+    assert all(r["RPN"] == r["S"] * r["O"] * r["D"] for r in rows)
+    bend = next(r for r in rows if r["Failure mode"] == "Bend angle out of tolerance")
+    assert "real TubeBEND runs" in bend["Evidence in this study"]
+    assert any("interlock" in r["Detection control"] for r in rows)
