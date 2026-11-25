@@ -79,6 +79,20 @@ def tube_solid(
     )
 
 
+def rod_solid(points: Sequence[Sequence[float]] | np.ndarray, clr: float | Sequence[float], diameter: float):  # type: ignore[no-untyped-def]
+    """A solid round bar swept along the centerline (used to cut fixture grooves)."""
+    import cadquery as cq
+
+    p = as_points(points)
+    wire = path_wire(p, clr)
+    d0 = unit(p[1] - p[0])
+    x_dir = np.cross(d0, [0.0, 0.0, 1.0])
+    if np.linalg.norm(x_dir) < 1e-9:
+        x_dir = np.cross(d0, [0.0, 1.0, 0.0])
+    plane = cq.Plane(origin=_v(cq, p[0]), xDir=_v(cq, unit(x_dir)), normal=_v(cq, d0))
+    return cq.Workplane(plane).circle(diameter / 2.0).sweep(cq.Workplane().add(wire), transition="round")
+
+
 def export(solid, step_path: str | Path | None = None, stl_path: str | Path | None = None) -> dict[str, str]:  # type: ignore[no-untyped-def]
     """Write STEP and/or STL; returns the paths written."""
     import cadquery as cq
