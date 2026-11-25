@@ -28,10 +28,10 @@ The I/O addresses are illustrative (Siemens-style I0.0/Q0.0 notation).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 
 
-class S(str, Enum):
+class S(StrEnum):
     IDLE = "IDLE"
     PART_PRESENT = "PART_PRESENT"
     CLAMPING = "CLAMPING"

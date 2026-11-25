@@ -1,0 +1,531 @@
+{
+  "reps": 10,
+  "days": 5.0,
+  "synthetic": true,
+  "rows": [
+    {
+      "scenario": "0 Baseline",
+      "per_day": 940.0,
+      "per_day_sd": 13.7,
+      "per_day_ci95": 9.8,
+      "demand_met_pct": 62.7,
+      "scrap_pct": 13.78,
+      "wip": 12.4,
+      "lead_time_min": 12.5,
+      "bottleneck": "END",
+      "oee_bend": 0.579,
+      "max_station_ct_s": 37,
+      "takt_s": 33.6,
+      "bend_changeover_min": 25,
+      "bend_latent_fpy": 0.8825396825396825,
+      "note": ""
+    },
+    {
+      "scenario": "1 Line rebalancing",
+      "per_day": 1132.2,
+      "per_day_sd": 22.7,
+      "per_day_ci95": 16.2,
+      "demand_met_pct": 75.5,
+      "scrap_pct": 13.92,
+      "wip": 15.2,
+      "lead_time_min": 12.4,
+      "bottleneck": "BEND",
+      "oee_bend": 0.698,
+      "max_station_ct_s": 28,
+      "takt_s": 33.6,
+      "bend_changeover_min": 25,
+      "bend_latent_fpy": 0.8825396825396825,
+      "note": "deburring moved from end forming to the saw"
+    },
+    {
+      "scenario": "2 SMED on bender",
+      "per_day": 1225.5,
+      "per_day_sd": 24.4,
+      "per_day_ci95": 17.5,
+      "demand_met_pct": 81.7,
+      "scrap_pct": 13.94,
+      "wip": 14.8,
+      "lead_time_min": 11.3,
+      "bottleneck": "END",
+      "oee_bend": 0.756,
+      "max_station_ct_s": 28,
+      "takt_s": 33.6,
+      "bend_changeover_min": 10.0,
+      "bend_latent_fpy": 0.8825396825396825,
+      "note": "bender changeover 25 to 10 min internal"
+    },
+    {
+      "scenario": "3 Buffer before bender",
+      "per_day": 1246.6,
+      "per_day_sd": 24.8,
+      "per_day_ci95": 17.7,
+      "demand_met_pct": 83.1,
+      "scrap_pct": 13.9,
+      "wip": 19.9,
+      "lead_time_min": 14.1,
+      "bottleneck": "END",
+      "oee_bend": 0.768,
+      "max_station_ct_s": 28,
+      "takt_s": 33.6,
+      "bend_changeover_min": 10.0,
+      "bend_latent_fpy": 0.8825396825396825,
+      "note": "buffer 10 to 17 parts (knee of curve)"
+    },
+    {
+      "scenario": "4 Closed-loop springback",
+      "per_day": 1395.9,
+      "per_day_sd": 26.3,
+      "per_day_ci95": 18.8,
+      "demand_met_pct": 93.1,
+      "scrap_pct": 2.9,
+      "wip": 19.9,
+      "lead_time_min": 14.2,
+      "bottleneck": "END",
+      "oee_bend": 0.762,
+      "max_station_ct_s": 28,
+      "takt_s": 33.6,
+      "bend_changeover_min": 10.0,
+      "bend_latent_fpy": 0.9968253968253968,
+      "note": "bend yield from ML compensation on real TubeBEND runs"
+    }
+  ],
+  "buffer_curve": [
+    {
+      "buffer": 1,
+      "per_day": 1172.72,
+      "sd": 21.605801689978243,
+      "wip": 10.024047619047618
+    },
+    {
+      "buffer": 2,
+      "per_day": 1187.3600000000001,
+      "sd": 11.983989319087364,
+      "wip": 10.309642857142858
+    },
+    {
+      "buffer": 3,
+      "per_day": 1193.6399999999999,
+      "sd": 20.42151371035514,
+      "wip": 10.772285714285715
+    },
+    {
+      "buffer": 4,
+      "per_day": 1193.26,
+      "sd": 23.693421496740882,
+      "wip": 11.216928571428571
+    },
+    {
+      "buffer": 5,
+      "per_day": 1197.6399999999999,
+      "sd": 17.489501612872385,
+      "wip": 11.687714285714286
+    },
+    {
+      "buffer": 6,
+      "per_day": 1210.96,
+      "sd": 19.83348459326075,
+      "wip": 12.356928571428572
+    },
+    {
+      "buffer": 7,
+      "per_day": 1211.9,
+      "sd": 14.43152413603255,
+      "wip": 12.711309523809524
+    },
+    {
+      "buffer": 8,
+      "per_day": 1221.0,
+      "sd": 22.47487486060823,
+      "wip": 13.549023809523808
+    },
+    {
+      "buffer": 9,
+      "per_day": 1213.1200000000001,
+      "sd": 22.38813177655618,
+      "wip": 14.084761904761905
+    },
+    {
+      "buffer": 10,
+      "per_day": 1225.52,
+      "sd": 24.448621865273125,
+      "wip": 14.82952380952381
+    },
+    {
+      "buffer": 11,
+      "per_day": 1218.6799999999998,
+      "sd": 22.278679394334738,
+      "wip": 15.74754761904762
+    },
+    {
+      "buffer": 12,
+      "per_day": 1234.56,
+      "sd": 16.075046224229382,
+      "wip": 16.362785714285714
+    },
+    {
+      "buffer": 13,
+      "per_day": 1230.2,
+      "sd": 30.325933163255232,
+      "wip": 17.22604761904762
+    },
+    {
+      "buffer": 14,
+      "per_day": 1221.3,
+      "sd": 24.450448757526797,
+      "wip": 17.75257142857143
+    },
+    {
+      "buffer": 15,
+      "per_day": 1231.3799999999999,
+      "sd": 19.68043585786543,
+      "wip": 18.28395238095238
+    },
+    {
+      "buffer": 16,
+      "per_day": 1234.66,
+      "sd": 30.915950575714202,
+      "wip": 19.536833333333334
+    },
+    {
+      "buffer": 17,
+      "per_day": 1246.6200000000001,
+      "sd": 24.76205879072973,
+      "wip": 19.92161904761905
+    },
+    {
+      "buffer": 18,
+      "per_day": 1245.28,
+      "sd": 32.25911757420941,
+      "wip": 20.558142857142858
+    },
+    {
+      "buffer": 19,
+      "per_day": 1253.52,
+      "sd": 27.069819192434775,
+      "wip": 21.644333333333332
+    },
+    {
+      "buffer": 20,
+      "per_day": 1253.48,
+      "sd": 28.76590574505405,
+      "wip": 22.336833333333335
+    }
+  ],
+  "smed": [
+    {
+      "step": "Fetch next bend die set and clamp die from store",
+      "minutes_before": 5.0,
+      "internal_before": true,
+      "minutes_after": 5.0,
+      "internal_after": false
+    },
+    {
+      "step": "Remove bend die, clamp die, pressure die",
+      "minutes_before": 4.0,
+      "internal_before": true,
+      "minutes_after": 4.0,
+      "internal_after": true
+    },
+    {
+      "step": "Fit and align next die set",
+      "minutes_before": 6.0,
+      "internal_before": true,
+      "minutes_after": 2.0,
+      "internal_after": true
+    },
+    {
+      "step": "Load bending program and enter springback values",
+      "minutes_before": 3.0,
+      "internal_before": true,
+      "minutes_after": 3.0,
+      "internal_after": false
+    },
+    {
+      "step": "Change mandrel and wiper die",
+      "minutes_before": 4.0,
+      "internal_before": true,
+      "minutes_after": 2.0,
+      "internal_after": true
+    },
+    {
+      "step": "Trial bends and measure on checking fixture",
+      "minutes_before": 3.0,
+      "internal_before": true,
+      "minutes_after": 2.0,
+      "internal_after": true
+    }
+  ],
+  "throughput_gain_pct": 48.5,
+  "scrap_change_pts": -10.88,
+  "closed_loop_source": "artifacts\\springback\\closed_loop.json",
+  "yamazumi_before": [
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "load bar stock",
+      "kind": "manual",
+      "seconds": 3
+    },
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "cut to length",
+      "kind": "machine",
+      "seconds": 9
+    },
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "unload and stack",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "load",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "deburr and chamfer ends",
+      "kind": "manual",
+      "seconds": 9
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "flare and bead",
+      "kind": "machine",
+      "seconds": 14
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "unload and check",
+      "kind": "manual",
+      "seconds": 6
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "walk to rack",
+      "kind": "walk",
+      "seconds": 4
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "load to collet",
+      "kind": "manual",
+      "seconds": 5
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "bend cycle",
+      "kind": "machine",
+      "seconds": 18
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "unload",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "load weld jig",
+      "kind": "manual",
+      "seconds": 5
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "TIG weld bracket",
+      "kind": "manual",
+      "seconds": 16
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "unload",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "load to fixture",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "sensor check",
+      "kind": "machine",
+      "seconds": 6
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "unload and label",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "PACK",
+      "name": "Packing",
+      "element": "pack",
+      "kind": "manual",
+      "seconds": 8
+    },
+    {
+      "station": "PACK",
+      "name": "Packing",
+      "element": "walk to pallet",
+      "kind": "walk",
+      "seconds": 2
+    }
+  ],
+  "yamazumi_after": [
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "load bar stock",
+      "kind": "manual",
+      "seconds": 3
+    },
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "cut to length",
+      "kind": "machine",
+      "seconds": 9
+    },
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "deburr and chamfer ends",
+      "kind": "manual",
+      "seconds": 9
+    },
+    {
+      "station": "CUT",
+      "name": "Cut-off saw",
+      "element": "unload and stack",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "load",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "flare and bead",
+      "kind": "machine",
+      "seconds": 14
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "unload and check",
+      "kind": "manual",
+      "seconds": 6
+    },
+    {
+      "station": "END",
+      "name": "End forming",
+      "element": "walk to rack",
+      "kind": "walk",
+      "seconds": 4
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "load to collet",
+      "kind": "manual",
+      "seconds": 5
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "bend cycle",
+      "kind": "machine",
+      "seconds": 18
+    },
+    {
+      "station": "BEND",
+      "name": "CNC rotary-draw bending",
+      "element": "unload",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "load weld jig",
+      "kind": "manual",
+      "seconds": 5
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "TIG weld bracket",
+      "kind": "manual",
+      "seconds": 16
+    },
+    {
+      "station": "WELD",
+      "name": "TIG weld bracket",
+      "element": "unload",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "load to fixture",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "sensor check",
+      "kind": "machine",
+      "seconds": 6
+    },
+    {
+      "station": "INSP",
+      "name": "Checking fixture",
+      "element": "unload and label",
+      "kind": "manual",
+      "seconds": 4
+    },
+    {
+      "station": "PACK",
+      "name": "Packing",
+      "element": "pack",
+      "kind": "manual",
+      "seconds": 8
+    },
+    {
+      "station": "PACK",
+      "name": "Packing",
+      "element": "walk to pallet",
+      "kind": "walk",
+      "seconds": 2
+    }
+  ]
+}

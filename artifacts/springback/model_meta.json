@@ -1,0 +1,425 @@
+{
+  "trained_on": "TubeBEND (CC BY 4.0), 315 runs, 22 x 1 mm stainless, CLR 33 mm, 47 deg target",
+  "valid_only_for": "this tube, material, tooling and target angle",
+  "models": {
+    "springback_setup": {
+      "features": [
+        "Collet boost",
+        "Pressure-die distance",
+        "Pressure-die boost",
+        "Mandrel retraction timing",
+        "Mandrel position",
+        "Clamp-die lateral position",
+        "Pressure-die lateral position"
+      ],
+      "target": "springback_deg",
+      "ranges": {
+        "Collet boost": [
+          0.85,
+          0.95
+        ],
+        "Pressure-die distance": [
+          0.3,
+          0.9
+        ],
+        "Pressure-die boost": [
+          0.0,
+          0.95
+        ],
+        "Mandrel retraction timing": [
+          0.0,
+          10.0
+        ],
+        "Mandrel position": [
+          -2909.8,
+          -2905.4
+        ],
+        "Clamp-die lateral position": [
+          225.25,
+          225.4
+        ],
+        "Pressure-die lateral position": [
+          -50.45,
+          -50.25
+        ]
+      }
+    },
+    "springback_process": {
+      "features": [
+        "Collet boost",
+        "Pressure-die distance",
+        "Pressure-die boost",
+        "Mandrel retraction timing",
+        "Mandrel position",
+        "Clamp-die lateral position",
+        "Pressure-die lateral position",
+        "bend_duration_s",
+        "bend_stroke_deg",
+        "bend_speed_dps",
+        "mandrel_kN_peak",
+        "mandrel_kN_mean",
+        "mandrel_kN_std",
+        "mandrel_kN_impulse",
+        "mandrel_kN_end",
+        "mandrel_kN_rise_s",
+        "pd1_kN_peak",
+        "pd1_kN_mean",
+        "pd1_kN_std",
+        "pd1_kN_impulse",
+        "pd1_kN_end",
+        "pd1_kN_rise_s",
+        "pd2_kN_peak",
+        "pd2_kN_mean",
+        "pd2_kN_std",
+        "pd2_kN_impulse",
+        "pd2_kN_end",
+        "pd2_kN_rise_s",
+        "bend_rot_peak",
+        "bend_rot_mean",
+        "bend_rot_std",
+        "bend_rot_impulse",
+        "bend_rot_end",
+        "collet_ax_peak",
+        "collet_ax_mean",
+        "collet_ax_std",
+        "collet_ax_impulse",
+        "collet_ax_end",
+        "collet_ax_rise_s",
+        "pd_lat_peak",
+        "pd_lat_mean",
+        "pd_lat_std",
+        "pd_lat_impulse",
+        "pd_lat_end",
+        "mandrel_ax_peak",
+        "mandrel_ax_mean",
+        "mandrel_ax_std",
+        "mandrel_ax_impulse",
+        "mandrel_ax_end",
+        "mandrel_ax_rise_s",
+        "clamp_lat_peak",
+        "clamp_lat_mean",
+        "clamp_lat_std",
+        "clamp_lat_impulse",
+        "clamp_lat_end",
+        "bend_work_proxy",
+        "collet_travel_mm",
+        "boost_measured",
+        "pd_impulse_total"
+      ],
+      "target": "springback_deg",
+      "ranges": {
+        "Collet boost": [
+          0.85,
+          0.95
+        ],
+        "Pressure-die distance": [
+          0.3,
+          0.9
+        ],
+        "Pressure-die boost": [
+          0.0,
+          0.95
+        ],
+        "Mandrel retraction timing": [
+          0.0,
+          10.0
+        ],
+        "Mandrel position": [
+          -2909.8,
+          -2905.4
+        ],
+        "Clamp-die lateral position": [
+          225.25,
+          225.4
+        ],
+        "Pressure-die lateral position": [
+          -50.45,
+          -50.25
+        ],
+        "bend_duration_s": [
+          14.6,
+          22.2
+        ],
+        "bend_stroke_deg": [
+          46.999199,
+          47.000198
+        ],
+        "bend_speed_dps": [
+          2.117117,
+          3.219192
+        ],
+        "mandrel_kN_peak": [
+          -0.007113,
+          0.706425
+        ],
+        "mandrel_kN_mean": [
+          -3.255911,
+          -1.389709
+        ],
+        "mandrel_kN_std": [
+          1.13564,
+          2.097191
+        ],
+        "mandrel_kN_impulse": [
+          -60.742296,
+          -28.421723
+        ],
+        "mandrel_kN_end": [
+          -6.160969,
+          0.341281
+        ],
+        "mandrel_kN_rise_s": [
+          0.0,
+          22.14
+        ],
+        "pd1_kN_peak": [
+          0.403767,
+          4.682057
+        ],
+        "pd1_kN_mean": [
+          0.330296,
+          3.021916
+        ],
+        "pd1_kN_std": [
+          0.047521,
+          1.368512
+        ],
+        "pd1_kN_impulse": [
+          4.83592,
+          64.065586
+        ],
+        "pd1_kN_end": [
+          0.214366,
+          4.669817
+        ],
+        "pd1_kN_rise_s": [
+          0.0,
+          20.98
+        ],
+        "pd2_kN_peak": [
+          1.710891,
+          3.797531
+        ],
+        "pd2_kN_mean": [
+          1.391393,
+          2.997787
+        ],
+        "pd2_kN_std": [
+          0.170016,
+          0.711244
+        ],
+        "pd2_kN_impulse": [
+          26.633116,
+          66.381817
+        ],
+        "pd2_kN_end": [
+          1.060872,
+          3.741484
+        ],
+        "pd2_kN_rise_s": [
+          1.03,
+          11.71
+        ],
+        "bend_rot_peak": [
+          -2.475,
+          -1.418572
+        ],
+        "bend_rot_mean": [
+          -8.420574,
+          -5.267918
+        ],
+        "bend_rot_std": [
+          0.617045,
+          1.78371
+        ],
+        "bend_rot_impulse": [
+          -186.678318,
+          -80.827285
+        ],
+        "bend_rot_end": [
+          -9.680001,
+          -4.547143
+        ],
+        "collet_ax_peak": [
+          0.105333,
+          24.600664
+        ],
+        "collet_ax_mean": [
+          -9.206647,
+          14.019454
+        ],
+        "collet_ax_std": [
+          0.547146,
+          6.808832
+        ],
+        "collet_ax_impulse": [
+          -204.05738,
+          301.040853
+        ],
+        "collet_ax_end": [
+          -12.678005,
+          24.114674
+        ],
+        "collet_ax_rise_s": [
+          0.3,
+          14.65
+        ],
+        "pd_lat_peak": [
+          -5.945998,
+          -3.737501
+        ],
+        "pd_lat_mean": [
+          -5.998816,
+          -3.825861
+        ],
+        "pd_lat_std": [
+          0.011463,
+          0.078724
+        ],
+        "pd_lat_impulse": [
+          -132.87361,
+          -56.062538
+        ],
+        "pd_lat_end": [
+          -5.955501,
+          -3.768
+        ],
+        "mandrel_ax_peak": [
+          -0.221607,
+          0.554017
+        ],
+        "mandrel_ax_mean": [
+          -6.478508,
+          -3.660496
+        ],
+        "mandrel_ax_std": [
+          2.456389,
+          4.333354
+        ],
+        "mandrel_ax_impulse": [
+          -130.414127,
+          -68.209142
+        ],
+        "mandrel_ax_end": [
+          -13.130195,
+          -0.526316
+        ],
+        "mandrel_ax_rise_s": [
+          0.0,
+          0.15
+        ],
+        "clamp_lat_peak": [
+          48.924999,
+          61.5
+        ],
+        "clamp_lat_mean": [
+          36.798452,
+          46.996854
+        ],
+        "clamp_lat_std": [
+          1.639494,
+          4.2896
+        ],
+        "clamp_lat_impulse": [
+          571.309374,
+          1030.788126
+        ],
+        "clamp_lat_end": [
+          35.400002,
+          46.549999
+        ],
+        "bend_work_proxy": [
+          247.8647,
+          384.662634
+        ],
+        "collet_travel_mm": [
+          22.787994,
+          25.510193
+        ],
+        "boost_measured": [
+          0.841812,
+          0.942375
+        ],
+        "pd_impulse_total": [
+          36.890536,
+          108.753799
+        ]
+      }
+    },
+    "ovality_setup": {
+      "features": [
+        "Collet boost",
+        "Pressure-die distance",
+        "Pressure-die boost",
+        "Mandrel retraction timing",
+        "Mandrel position",
+        "Clamp-die lateral position",
+        "Pressure-die lateral position"
+      ],
+      "target": "ovality_arc_max_pct",
+      "ranges": {
+        "Collet boost": [
+          0.85,
+          0.95
+        ],
+        "Pressure-die distance": [
+          0.3,
+          0.9
+        ],
+        "Pressure-die boost": [
+          0.0,
+          0.95
+        ],
+        "Mandrel retraction timing": [
+          0.0,
+          10.0
+        ],
+        "Mandrel position": [
+          -2909.8,
+          -2905.4
+        ],
+        "Clamp-die lateral position": [
+          225.25,
+          225.4
+        ],
+        "Pressure-die lateral position": [
+          -50.45,
+          -50.25
+        ]
+      }
+    }
+  },
+  "setup_levels": {
+    "Collet boost": [
+      0.85,
+      0.87,
+      0.9,
+      0.92,
+      0.95
+    ],
+    "Pressure-die distance": [
+      0.3,
+      0.6,
+      0.9
+    ],
+    "Pressure-die boost": [
+      0.0,
+      0.85,
+      0.87,
+      0.9,
+      0.92,
+      0.95
+    ],
+    "Mandrel retraction timing": [
+      0.0,
+      2.0,
+      5.0,
+      10.0
+    ]
+  },
+  "interval90_deg": 0.11736470720214832,
+  "cv_best": {
+    "setup": "xgboost | setup",
+    "setup+process": "ridge | setup+process"
+  }
+}

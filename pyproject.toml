@@ -19,3 +19,10 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["cad: needs CadQuery", "slow: takes more than a few seconds", "tubebend: needs the downloaded TubeBEND data"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pipeforge*"]

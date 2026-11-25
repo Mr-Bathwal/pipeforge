@@ -37,9 +37,13 @@ def wall_change(od: float, wall: float, clr: float) -> WallChange:
     no change in the hoop direction, so the wall strain is equal and opposite
     to the axial strain. The axial stretch of the extrados fibre at radius
     R + OD/2 is (R + OD/2) / R, which gives t_o = t R / (R + OD/2), and
-    likewise t_i = t R / (R - OD/2). Real benders move the neutral axis
-    inwards, and a pressure die and booster reduce thinning, so this is an
-    upper estimate of thinning for an unboosted bend.
+    likewise t_i = t R / (R - OD/2). The thinning form is the Bend Tooling
+    rule of thumb Pt = (Ro - R) / Ro, which matches Tube Form Solutions'
+    "a two-inch tube bent to a three-inch centerline radius will thin by
+    about 25%". The thickening form is our own symmetric derivation; no
+    published formula was found and it overstates the effect (+100 % at 1D),
+    so treat it as an upper bound. Real benders move the neutral axis
+    inwards, and boost reduces thinning.
     """
     if clr <= od / 2:
         raise ValueError("CLR must exceed OD/2 for the inside of the bend to exist")
@@ -85,7 +89,8 @@ def springback(angle_deg: float, clr: float, od: float, wall: float, e_mpa: floa
     """Springback of a thin-walled tube bent to *angle_deg* at radius *clr*.
 
     Elastic, perfectly plastic material at *flow_mpa*; the elastic unloading
-    curvature is M / (E I) with I = pi r_m^3 t. The arc keeps its length while
+    curvature is M / (E I) with I = pi r_m^3 t, the general relation
+    1/R - 1/r = M / (E I) in Wagoner, Wang and Li, "Springback" (ASM Handbook). The arc keeps its length while
     it unloads, so the angle falls in proportion to the curvature:
     springback = angle * R * M / (E I).
     """
@@ -150,20 +155,13 @@ def physics_model(od: float, wall: float, material: Material, which: str = "mid"
     return model
 
 
-def ovality_risk(od: float, wall: float, clr: float, mandrel: bool) -> str:
-    """A flag, not a number: 'low', 'medium' or 'high' risk of ovality past 8 %.
+def ovality_estimate(od: float, wall: float, clr: float) -> float:
+    """Ovality (%) for a bend without a mandrel: 0.7 x difficulty factor (WF / D of bend).
 
-    The thresholds follow the bend die selection chart used in dfm.py: thin
-    walls (high OD/t) at tight radii (low CLR/OD) flatten unless a mandrel
-    supports the bore. See ENGINEERING_NOTES 3.2 for why no closed-form
-    ovality number is given.
+    Tube Form Solutions' rule for elliptical-groove (no mandrel) tooling,
+    stated as usable when the difficulty factor is under 19 on steel. With a
+    mandrel the ovality is lower and not given by any formula found; the
+    TubeBEND runs (22 x 1 mm, 1.5D, with mandrel) measured 2.5 to 6.6 %.
+    Compare with the usual acceptance of 5 to 8 % of OD.
     """
-    wf = od / wall
-    d = clr / od
-    if mandrel:
-        return "low" if wf <= 40 else "medium"
-    if d >= 3.0 and wf <= 15:
-        return "low"
-    if d >= 2.0 and wf <= 20:
-        return "medium"
-    return "high"
+    return 0.7 * (od / wall) / (clr / od)
