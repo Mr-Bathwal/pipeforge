@@ -10,3 +10,4 @@ data/tubebend/raw/
 .streamlit/secrets.toml
 .env
 *.egg-info/
+.claude/

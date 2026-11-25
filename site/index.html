@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PipeForge · Pipe bending &amp; production engineering study</title>
+<meta name="description" content="PipeForge: a self-directed engineering study in CNC rotary-draw tube bending, springback prediction on real data (TubeBEND), checking-fixture design and line balancing for two- and four-wheeler bent tubes.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F4F2EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1113" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="PipeForge · AI-assisted pipe bending &amp; production engineering">
+<meta property="og:description" content="From XYZ points to a bending program, a springback model on real bends, a checking fixture and a balanced line.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316181B'/%3E%3Cpath d='M5 24h7a6 6 0 0 0 6-6V14a6 6 0 0 1 6-6h3' fill='none' stroke='%23E8501A' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>/* lenis.css 1.3.27, inlined */
+html.lenis,html.lenis body{height:auto}
+.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:clip}
+.lenis [data-lenis-prevent],.lenis [data-lenis-prevent-wheel],.lenis [data-lenis-prevent-touch],.lenis [data-lenis-prevent-vertical],.lenis [data-lenis-prevent-horizontal]{overscroll-behavior:contain}
+.lenis.lenis-smooth iframe{pointer-events:none}
+</style>
+<link rel="stylesheet" href="assets/style.css">
+
+<!-- GSAP 3.13.0 (Standard "No Charge" licence), Lenis 1.3.27 (MIT). Deferred: they run before the module below, in document order. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" integrity="sha384-xb96EMJeax+NLXMC88ZBa1xAeAW+kn+horHh/zFlbMLG2UPWhMJJSlv7fi57hS+Q" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js" integrity="sha384-R18XzqnxvVLEF+BYfhpmDx30v7eP83fAckyfoRzK7/Uf6nGqufcmsk0eAKo7S3RU" crossorigin="anonymous" defer></script>
+<!-- three.js 0.160.0 (MIT), loaded lazily after first paint through this import map -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="assets/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#cad"><span class="l" lang="en">Skip to content</span><span class="l" lang="ja">本文へ移動</span></a>
+
+<header class="topbar" id="topbar">
+  <a class="brand" href="#hero" aria-label="PipeForge, back to top">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h7a6 6 0 0 0 6-6V14a6 6 0 0 1 6-6h3"/></svg>
+    <span>PipeForge</span>
+  </a>
+  <p class="topbar-chapter" aria-live="polite"><span class="mono" id="now-num">00</span> <span id="now-name"><span class="l" lang="en">Hero</span><span class="l" lang="ja">概要</span></span></p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Language / 言語">
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="ja" aria-pressed="false" lang="ja">日本語</button>
+    </div>
+    <button type="button" class="motion-btn" id="motion-btn" aria-pressed="false">
+      <span class="motion-icon" aria-hidden="true"></span>
+      <span class="l" lang="en">Reduce motion</span><span class="l" lang="ja">動きを減らす</span>
+    </button>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+</header>
+
+<nav class="rail" aria-label="Chapters">
+  <ol>
+    <li><a href="#hero" data-rail="0"><span class="rail-num">00</span><span class="rail-name"><span class="l" lang="en">PipeForge</span><span class="l" lang="ja">概要</span></span></a></li>
+    <li><a href="#cad" data-rail="1"><span class="rail-num">01</span><span class="rail-name"><span class="l" lang="en">CAD and drawing</span><span class="l" lang="ja">CADと図面</span></span></a></li>
+    <li><a href="#bend" data-rail="2"><span class="rail-num">02</span><span class="rail-name"><span class="l" lang="en">Bending and springback</span><span class="l" lang="ja">曲げとスプリングバック</span></span></a></li>
+    <li><a href="#ml" data-rail="3"><span class="rail-num">03</span><span class="rail-name"><span class="l" lang="en">Springback ML</span><span class="l" lang="ja">スプリングバック予測</span></span></a></li>
+    <li><a href="#fixture" data-rail="4"><span class="rail-num">04</span><span class="rail-name"><span class="l" lang="en">Jig and fixture</span><span class="l" lang="ja">検査治具</span></span></a></li>
+    <li><a href="#line" data-rail="5"><span class="rail-num">05</span><span class="rail-name"><span class="l" lang="en">Line and kaizen</span><span class="l" lang="ja">ラインと改善</span></span></a></li>
+    <li><a href="#sheet" data-rail="6"><span class="rail-num">06</span><span class="rail-name"><span class="l" lang="en">Process sheet</span><span class="l" lang="ja">工程表</span></span></a></li>
+  </ol>
+</nav>
+
+<main id="main">
+
+<!-- 00 HERO ============================================================= -->
+<section id="hero" class="chapter hero" data-chapter="0" aria-labelledby="hero-title">
+  <div class="hero-stage">
+    <svg class="hero-poster" id="hero-poster" aria-hidden="true" preserveAspectRatio="xMidYMid meet"></svg>
+    <canvas id="hero-canvas" class="stage-canvas" role="img" aria-label="Rotating 3D model of the PF-HB-2201 motorcycle handlebar. Scrolling unbends it to a straight blank and re-bends it bend by bend, following its LRA bending program."></canvas>
+    <div class="hero-dim" id="hero-dim" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero-copy wrap">
+    <p class="eyebrow"><span class="l" lang="en">Engineering study · bent tube for two- and four-wheelers</span><span class="l" lang="ja">エンジニアリング・スタディ · 二輪・四輪用曲げパイプ</span></p>
+    <h1 id="hero-title" class="hero-title" lang="en">PipeForge</h1>
+    <p class="hero-sub"><span class="l" lang="en">AI-assisted pipe bending &amp; production engineering</span><span class="l" lang="ja">AIを活用したパイプ曲げと生産技術</span></p>
+    <p class="hero-lede"><span class="l" lang="en">From XYZ drawing points to a bending program, a springback model trained on real bends, a checking fixture and a balanced line.</span><span class="l" lang="ja">XYZ座標から曲げプログラム、実測データで学習したスプリングバック予測、検査治具、ライン編成まで。</span></p>
+    <p class="hero-for"><span class="l" lang="en">A self-directed study, prepared for an application to Yamato Industrial Co., Ltd. (やまと興業), Hamamatsu.</span><span class="l" lang="ja">やまと興業株式会社（浜松）への応募にあわせて取り組んだ個人スタディです。</span></p>
+  </div>
+
+  <aside class="hmi hero-hmi" aria-label="Hero part data">
+    <div class="hmi-head">
+      <span class="hmi-tag" id="hero-partno">—</span>
+      <span class="hmi-state" id="hero-state" aria-live="polite">—</span>
+    </div>
+    <dl class="hmi-grid" id="hero-spec"></dl>
+    <div class="program" id="hero-program" aria-label="LRA bending program"></div>
+    <div class="hero-control" id="hero-control" hidden>
+      <label for="hero-range"><span class="l" lang="en">Program step</span><span class="l" lang="ja">プログラム工程</span></label>
+      <input type="range" id="hero-range" min="0" max="1" step="1" value="1">
+      <output id="hero-range-out" for="hero-range"></output>
+    </div>
+  </aside>
+
+  <p class="scroll-cue" aria-hidden="true"><span class="l" lang="en">Scroll: CAD to bending program</span><span class="l" lang="ja">スクロール：CADから曲げプログラムへ</span><i></i></p>
+</section>
+
+<!-- 01 CAD ============================================================== -->
+<section id="cad" class="chapter" data-chapter="1" aria-labelledby="cad-title" tabindex="-1">
+  <div class="wrap">
+    <header class="ch-head">
+      <p class="ch-num"><span>01</span> / 06</p>
+      <h2 id="cad-title" class="ch-title"><span class="l" lang="en">CAD and drawing</span><span class="l" lang="ja">CADと図面</span></h2>
+      <p class="lead"><span class="l" lang="en">A bent tube is defined by its intersection points, where the straight centrelines would meet if every bend were sharp. PipeForge converts them to the LRA program a CNC bender runs: <b>L</b> is the straight feed before a bend, <b>R</b> the rotation of the tube between bends, <b>A</b> the bend angle. The cut length is the developed centreline, straights plus arcs.</span><span class="l" lang="ja">曲げパイプは交点座標（XYZ）で定義します。PipeForgeはこれをNCベンダーが実行するLRAデータに変換します。<b>L</b>：曲げ前の直線送り、<b>R</b>：曲げ間の回転、<b>A</b>：曲げ角度。切断長は直線部と円弧部を合わせた中心線の展開長です。</span></p>
+    </header>
+
+    <div class="part-tabs" id="part-tabs" role="tablist" aria-label="Sample parts"></div>
+
+    <div class="cad-grid" id="cad-panel" role="tabpanel" aria-labelledby="cad-title">
+      <figure class="card drawing-card">
+        <div class="drawing" id="cad-drawing"></div>
+        <figcaption class="cap"><span class="l" lang="en">Top and front views of the centreline, third-angle projection, mm. Circles are XYZ intersection points; the dashed polyline joins them.</span><span class="l" lang="ja">中心線の平面図・正面図（第三角法、単位mm）。丸印がXYZ交点、破線が交点を結ぶ線です。</span></figcaption>
+      </figure>
+      <div class="cad-side">
+        <dl class="spec-row" id="cad-spec"></dl>
+        <div class="table-wrap">
+          <table class="data" id="xyz-table">
+            <caption><span class="l" lang="en">XYZ intersection points</span><span class="l" lang="ja">XYZ交点座標</span> <span class="unit">mm</span></caption>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table class="data lra" id="lra-table">
+            <caption><span class="l" lang="en">LRA bending program</span><span class="l" lang="ja">LRA曲げデータ</span></caption>
+          </table>
+        </div>
+        <div class="cut" id="cad-cut"></div>
+      </div>
+    </div>
+
+    <div class="dfm" id="dfm-panel" aria-labelledby="dfm-title">
+      <h3 id="dfm-title" class="h3"><span class="l" lang="en">Design-for-manufacture checks</span><span class="l" lang="ja">製造性（DFM）チェック</span></h3>
+      <div id="dfm-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 BEND ============================================================= -->
+<section id="bend" class="chapter pin-chapter" data-chapter="2" aria-labelledby="bend-title">
+  <div class="bend-layout">
+    <div class="bend-copy">
+      <header class="ch-head compact">
+        <p class="ch-num"><span>02</span> / 06</p>
+        <h2 id="bend-title" class="ch-title"><span class="l" lang="en">Rotary-draw bending and springback</span><span class="l" lang="ja">回転引き曲げとスプリングバック</span></h2>
+        <p class="lead small"><span class="l" lang="en">The tube is clamped to a bend die and drawn around it. A pressure die supports the straight; a wiper die stops wrinkles on the inside of the bend. When the clamp opens, elastic recovery opens the bend: springback. The machine has to overbend to land on the target.</span><span class="l" lang="ja">パイプを曲げ型にクランプし、型の回転で引き曲げます。プレッシャー型が直線部を支え、しわ押さえ型が内側のしわを防ぎます。クランプ開放後、弾性回復で角度が戻ります（スプリングバック）。目標角度を得るには、その分を見込んで余分に曲げます。</span></p>
+      </header>
+      <ol class="steps" id="bend-steps">
+        <li data-step="0"><b><span class="l" lang="en">Clamp</span><span class="l" lang="ja">クランプ</span></b><span class="l" lang="en">The clamp die closes the tube onto the bend die; pressure and wiper dies come in.</span><span class="l" lang="ja">クランプ型でパイプを曲げ型に固定し、プレッシャー型としわ押さえ型をセットします。</span></li>
+        <li data-step="1"><b><span class="l" lang="en">Draw</span><span class="l" lang="ja">引き曲げ</span></b><span class="l" lang="en">The bend die turns and draws the tube around it at the centreline radius (CLR).</span><span class="l" lang="ja">曲げ型が回転し、パイプを曲げR（CLR）に沿って引き曲げます。</span></li>
+        <li data-step="2"><b><span class="l" lang="en">Overbend</span><span class="l" lang="ja">オーバーベンド</span></b><span class="l" lang="en">The die turns past the target by the expected springback.</span><span class="l" lang="ja">予想スプリングバック分だけ目標角度を超えて曲げます。</span></li>
+        <li data-step="3"><b><span class="l" lang="en">Release</span><span class="l" lang="ja">開放</span></b><span class="l" lang="en">Clamp and pressure die open; the tube springs back toward the target.</span><span class="l" lang="ja">クランプとプレッシャー型を開放すると、パイプは目標角度へ戻ります。</span></li>
+        <li data-step="4"><b><span class="l" lang="en">Estimate vs measurement</span><span class="l" lang="ja">推定値と実測値</span></b><span class="l" lang="en">A textbook elastic estimate against the measured mean on real bends. The gap is why a data-driven model is worth building.</span><span class="l" lang="ja">理論式による推定値と、実機曲げの実測平均との比較。この差がデータ駆動モデルを作る理由です。</span></li>
+      </ol>
+    </div>
+    <div class="bend-visual">
+      <div class="stage-box">
+        <canvas id="bend-canvas" class="stage-canvas" role="img" aria-label="3D rotary-draw bending tooling: bend die, clamp die, pressure die and wiper die bending a tube, then releasing it to show springback."></canvas>
+        <div class="labels" id="bend-labels" aria-hidden="true"></div>
+        <div class="stage-fallback" hidden><span class="l" lang="en">3D view unavailable (WebGL is off). The readouts below still show the data.</span><span class="l" lang="ja">3D表示は利用できません（WebGLが無効）。下の数値は表示されます。</span></div>
+      </div>
+      <div class="hmi bend-hmi" aria-live="polite">
+        <div class="hmi-cell"><span class="k"><span class="l" lang="en">Target</span><span class="l" lang="ja">目標角度</span></span><span class="v mono" id="bend-target">—</span></div>
+        <div class="hmi-cell"><span class="k"><span class="l" lang="en">Die angle</span><span class="l" lang="ja">型角度</span></span><span class="v mono" id="bend-die">—</span></div>
+        <div class="hmi-cell"><span class="k"><span class="l" lang="en">Tube angle</span><span class="l" lang="ja">パイプ角度</span></span><span class="v mono" id="bend-tube">—</span></div>
+        <div class="hmi-cell"><span class="k"><span class="l" lang="en">Springback</span><span class="l" lang="ja">スプリングバック</span></span><span class="v mono" id="bend-sb">—</span></div>
+      </div>
+      <p class="cap" id="bend-note"></p>
+      <div class="bend-control" id="bend-control" hidden role="group" aria-label="Bend state">
+        <button type="button" data-bend-state="0"><span class="l" lang="en">Straight</span><span class="l" lang="ja">曲げ前</span></button>
+        <button type="button" data-bend-state="1"><span class="l" lang="en">Loaded</span><span class="l" lang="ja">負荷時</span></button>
+        <button type="button" data-bend-state="2" aria-pressed="true"><span class="l" lang="en">Released</span><span class="l" lang="ja">開放後</span></button>
+      </div>
+      <div class="gap-card card" id="gap-card">
+        <h3 class="h4"><span class="l" lang="en">Springback: physics estimate vs measured</span><span class="l" lang="ja">スプリングバック：理論推定と実測</span></h3>
+        <div id="gap-chart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ML =============================================================== -->
+<section id="ml" class="chapter" data-chapter="3" aria-labelledby="ml-title">
+  <div class="wrap">
+    <header class="ch-head">
+      <p class="ch-num"><span>03</span> / 06</p>
+      <h2 id="ml-title" class="ch-title"><span class="l" lang="en">Springback ML on real data</span><span class="l" lang="ja">実測データによるスプリングバック予測</span></h2>
+      <p class="lead"><span class="l" lang="en">To predict springback I trained models on TubeBEND, a public dataset of real rotary-draw bends. Validation is grouped by machine setup, so a model is never scored on a setup it trained on. The question that matters on the floor: how many bends land inside tolerance first time?</span><span class="l" lang="ja">スプリングバック予測には、実機の回転引き曲げを記録した公開データセットTubeBENDを使用しました。検証は設定グループ単位で行い、学習に使った設定ではスコアを出しません。現場で重要なのは「一発で公差内に入る曲げがどれだけあるか」です。</span></p>
+    </header>
+
+    <aside class="credit card" aria-labelledby="credit-title">
+      <p class="credit-tag mono">DATA</p>
+      <div>
+        <h3 id="credit-title" class="h4">TubeBEND · Rotary Tube Bending Process Dataset</h3>
+        <p><span class="l" lang="en">318 real bends recorded on a WAFIOS RBV 35 rotary-draw bender, with setup parameters, process signals and measured geometry. Oz, Knoche, Yazdani, Engel, Van Laerhoven (2025), University of Siegen. Licensed CC BY 4.0. PipeForge cleans the runs, engineers features and trains the models; the data is theirs.</span><span class="l" lang="ja">WAFIOS RBV 35回転引き曲げ機で記録された実際の曲げ318本（設定値・プロセス信号・測定形状）。Oz, Knoche, Yazdani, Engel, Van Laerhoven（2025年、ジーゲン大学）。ライセンスはCC BY 4.0。PipeForgeはデータの整理・特徴量作成・学習を行い、データ自体は著者らのものです。</span></p>
+        <p class="credit-links mono">
+          <a href="https://arxiv.org/abs/2509.10272" rel="noopener">arXiv:2509.10272</a>
+          <a href="https://doi.org/10.5281/zenodo.18458823" rel="noopener">doi:10.5281/zenodo.18458823</a>
+          <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener license">CC BY 4.0</a>
+        </p>
+      </div>
+      <dl class="credit-stats" id="ml-stats"></dl>
+    </aside>
+
+    <div class="ml-grid">
+      <figure class="card viz-card" aria-labelledby="parity-title">
+        <h3 id="parity-title" class="h4"><span class="l" lang="en">Parity: predicted vs measured</span><span class="l" lang="ja">予測値と実測値の比較</span></h3>
+        <div id="parity-chart" class="viz"></div>
+        <figcaption class="cap" id="parity-cap"></figcaption>
+      </figure>
+      <figure class="card viz-card" aria-labelledby="fpy-title">
+        <h3 id="fpy-title" class="h4"><span class="l" lang="en">Closed loop: first-pass yield by policy</span><span class="l" lang="ja">補正方式別の直行率（クローズドループ）</span></h3>
+        <div id="fpy-chart" class="viz"></div>
+        <figcaption class="cap" id="fpy-cap"></figcaption>
+      </figure>
+      <figure class="card viz-card" aria-labelledby="shap-title">
+        <h3 id="shap-title" class="h4"><span class="l" lang="en">What drives springback (SHAP, setup model)</span><span class="l" lang="ja">スプリングバックの要因（SHAP・設定値モデル）</span></h3>
+        <div id="shap-chart" class="viz"></div>
+        <figcaption class="cap"><span class="l" lang="en">Mean absolute SHAP value per feature, in degrees of springback.</span><span class="l" lang="ja">特徴量ごとの平均絶対SHAP値（スプリングバック角度、°）。</span></figcaption>
+      </figure>
+      <div class="card viz-card" aria-labelledby="metrics-title">
+        <h3 id="metrics-title" class="h4"><span class="l" lang="en">Cross-validated metrics</span><span class="l" lang="ja">交差検証の評価指標</span></h3>
+        <div id="metrics-table" class="table-wrap"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FIXTURE ========================================================== -->
+<section id="fixture" class="chapter pin-chapter" data-chapter="4" aria-labelledby="fixture-title">
+  <div class="fixture-pin">
+    <div class="stage-box fixture-stage">
+      <canvas id="fixture-canvas" class="stage-canvas" role="img" aria-label="3D checking fixture for the PF-HB-2201 handlebar: base plate, locating blocks, the tube, toggle clamps, proximity sensors and 3-2-1 datum labels, assembling in sequence."></canvas>
+      <div class="labels" id="fixture-labels" aria-hidden="true"></div>
+      <div class="stage-fallback" hidden><span class="l" lang="en">3D view unavailable (WebGL is off). The block table below lists the fixture.</span><span class="l" lang="ja">3D表示は利用できません（WebGLが無効）。下の表で治具構成を確認できます。</span></div>
+    </div>
+    <header class="ch-head compact fixture-head wrap">
+      <p class="ch-num"><span>04</span> / 06</p>
+      <h2 id="fixture-title" class="ch-title"><span class="l" lang="en">Jig and fixture</span><span class="l" lang="ja">検査治具</span></h2>
+      <p class="lead small"><span class="l" lang="en">A checking fixture for the handlebar, generated from the same centreline. Locating follows 3-2-1: three points on datum A, two on B, one end stop C. Clamps hold the part; proximity sensors confirm it is seated.</span><span class="l" lang="ja">ハンドルバー用の検査治具を同じ中心線から生成。位置決めは3-2-1の原則：データムAに3点、Bに2点、端部ストッパCに1点。クランプで保持し、近接センサで着座を確認します。</span></p>
+      <p class="fixture-phase mono" id="fixture-phase" aria-live="polite"></p>
+    </header>
+    <div class="stateflow-wrap wrap">
+      <div class="stateflow card" id="stateflow" role="img" aria-label="Station state machine: IDLE, PART_PRESENT, CLAMPING, CHECK, PASS or FAIL, UNCLAMP, back to IDLE. ESTOP can be entered from any state."></div>
+      <div class="state-controls" id="state-controls">
+        <button type="button" id="state-step" hidden><span class="l" lang="en">Next state</span><span class="l" lang="ja">次の状態</span></button>
+        <button type="button" id="estop-btn" class="estop"><span class="l" lang="en">E-stop</span><span class="l" lang="ja">非常停止</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap fixture-detail">
+    <div class="datum-legend" id="datum-legend"></div>
+    <details class="table-details">
+      <summary><span class="l" lang="en">Fixture block table</span><span class="l" lang="ja">受けブロック一覧</span></summary>
+      <div class="table-wrap"><table class="data" id="block-table"></table></div>
+    </details>
+  </div>
+</section>
+
+<!-- 05 LINE ============================================================= -->
+<section id="line" class="chapter" data-chapter="5" aria-labelledby="line-title">
+  <div class="wrap">
+    <header class="ch-head">
+      <p class="ch-num"><span>05</span> / 06</p>
+      <h2 id="line-title" class="ch-title"><span class="l" lang="en">Line and kaizen</span><span class="l" lang="ja">生産ラインと改善</span></h2>
+      <p class="badge-synthetic" role="note"><span class="dot" aria-hidden="true"></span><span class="l" lang="en">Synthetic simulation: cycle times are plausible assumptions, not measurements</span><span class="l" lang="ja">合成シミュレーション：サイクルタイムは実測値ではなく仮定値です</span></p>
+      <p class="lead"><span class="l" lang="en">A six-station bent-tube line, modelled as a discrete-event simulation. The point is the method: find the bottleneck against takt, then test kaizen ideas in the model before touching the floor.</span><span class="l" lang="ja">6工程の曲げパイプラインを離散事象シミュレーションでモデル化しました。目的は手法にあります。タクトに対するボトルネックを見つけ、現場に手を入れる前にモデルで改善案を検証します。</span></p>
+      <dl class="spec-row" id="line-spec"></dl>
+    </header>
+  </div>
+
+  <div class="stations-pin" id="stations-pin">
+    <div class="stations" id="stations" role="list"></div>
+  </div>
+
+  <div class="wrap kaizen">
+    <div class="kz-block">
+      <div class="kz-head">
+        <h3 class="h3" id="yama-title"><span class="l" lang="en">Yamazumi against takt</span><span class="l" lang="ja">山積み表とタクト</span></h3>
+        <div class="seg" role="group" aria-label="Yamazumi state" id="yama-toggle">
+          <button type="button" data-yama="before" aria-pressed="true"><span class="l" lang="en">Before</span><span class="l" lang="ja">改善前</span></button>
+          <button type="button" data-yama="after" aria-pressed="false"><span class="l" lang="en">After rebalancing</span><span class="l" lang="ja">ライン編成後</span></button>
+        </div>
+      </div>
+      <figure class="card viz-card wide">
+        <div id="yama-chart" class="viz"></div>
+        <figcaption class="cap" id="yama-cap"></figcaption>
+      </figure>
+    </div>
+
+    <div class="kz-block">
+      <h3 class="h3"><span class="l" lang="en">Kaizen steps, tested in the model</span><span class="l" lang="ja">改善ステップ（モデルで検証）</span></h3>
+      <div class="kz-stats" id="kz-stats"></div>
+      <figure class="card viz-card wide">
+        <div id="kaizen-chart" class="viz"></div>
+        <figcaption class="cap" id="kaizen-cap"></figcaption>
+      </figure>
+      <ol class="kz-steps" id="kz-steps"></ol>
+    </div>
+
+    <div class="kz-pair">
+      <figure class="card viz-card">
+        <h3 class="h4"><span class="l" lang="en">SMED on the bender: changeover minutes</span><span class="l" lang="ja">ベンダーの段取り替え（SMED）：分</span></h3>
+        <div id="smed-chart" class="viz"></div>
+        <figcaption class="cap"><span class="l" lang="en">Internal work stops the machine; external work is done while it runs.</span><span class="l" lang="ja">内段取りは機械停止中の作業、外段取りは稼働中に行う作業です。</span></figcaption>
+      </figure>
+      <figure class="card viz-card">
+        <h3 class="h4"><span class="l" lang="en">Buffer before the bender: good parts per day</span><span class="l" lang="ja">ベンダー前バッファ：良品数／日</span></h3>
+        <div id="buffer-chart" class="viz"></div>
+        <figcaption class="cap"><span class="l" lang="en">Mean over replications, band = ±1 standard deviation.</span><span class="l" lang="ja">反復試行の平均、帯は±1標準偏差。</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 06 SHEET ============================================================ -->
+<section id="sheet" class="chapter" data-chapter="6" aria-labelledby="sheet-title">
+  <div class="wrap">
+    <header class="ch-head">
+      <p class="ch-num"><span>06</span> / 06</p>
+      <h2 id="sheet-title" class="ch-title"><span class="l" lang="en">Process sheet</span><span class="l" lang="ja">工程表</span></h2>
+      <p class="lead"><span class="l" lang="en">Everything above is generated from one Python package and one data file. The process sheet collects the line in the format a shop floor already uses.</span><span class="l" lang="ja">ここまでの内容は、1つのPythonパッケージと1つのデータファイルから生成しています。工程表は、ラインを現場で使われている形式にまとめたものです。</span></p>
+    </header>
+    <div class="sheet card" id="process-sheet"></div>
+    <ul class="links">
+      <li><a class="link-card" id="link-github" href="https://github.com/Mr-Bathwal/pipeforge"><span class="k mono">GitHub</span><span class="t"><span class="l" lang="en">Source repository</span><span class="l" lang="ja">ソースコード</span></span><span class="d"><span class="l" lang="en">Python package, tests, data pipeline</span><span class="l" lang="ja">Pythonパッケージ・テスト・データ処理</span></span><span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="link-card" id="link-app" href="#app"><span class="k mono">App</span><span class="t"><span class="l" lang="en">Live app</span><span class="l" lang="ja">ライブアプリ</span></span><span class="d"><span class="l" lang="en">Enter XYZ points, get LRA, springback and a drawing</span><span class="l" lang="ja">XYZを入力してLRA・スプリングバック・図面を出力</span></span><span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="link-card" id="link-docs" href="https://github.com/Mr-Bathwal/pipeforge/blob/main/docs/ENGINEERING_NOTES.md"><span class="k mono">Docs</span><span class="t"><span class="l" lang="en">Engineering notes</span><span class="l" lang="ja">技術ノート</span></span><span class="d"><span class="l" lang="en">Methods, assumptions, model card</span><span class="l" lang="ja">手法・前提条件・モデルカード</span></span><span class="arr" aria-hidden="true">→</span></a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <h2 class="h3"><span class="l" lang="en">Honesty notes</span><span class="l" lang="ja">注記</span></h2>
+    <ul class="notes">
+      <li><span class="l" lang="en">The production line, its cycle times and every kaizen result are a <b>synthetic simulation</b>, not data from a real plant.</span><span class="l" lang="ja">生産ライン・サイクルタイム・改善結果はすべて<b>合成シミュレーション</b>であり、実工場のデータではありません。</span></li>
+      <li><span class="l" lang="en">Physics values (springback, wall thinning) are <b>engineering estimates</b> from textbook formulas and assumed material properties.</span><span class="l" lang="ja">物理値（スプリングバック・肉厚減少）は、教科書の式と仮定した材料特性による<b>工学的推定値</b>です。</span></li>
+      <li><span class="l" lang="en">Springback data: TubeBEND / Rotary Tube Bending Process Dataset, Oz, Knoche, Yazdani, Engel, Van Laerhoven (2025), arXiv:2509.10272; data DOI <a href="https://doi.org/10.5281/zenodo.18458823" rel="noopener">10.5281/zenodo.18458823</a>, CC BY 4.0.</span><span class="l" lang="ja">スプリングバックデータ：TubeBEND / Rotary Tube Bending Process Dataset、Oz, Knoche, Yazdani, Engel, Van Laerhoven（2025）arXiv:2509.10272、データDOI <a href="https://doi.org/10.5281/zenodo.18458823" rel="noopener">10.5281/zenodo.18458823</a>、CC BY 4.0。</span></li>
+      <li><span class="l" lang="en">This is a <b>self-directed study</b>. Nothing here has been deployed in a factory.</span><span class="l" lang="ja">これは<b>個人のスタディ</b>であり、工場での導入実績はありません。</span></li>
+      <li><span class="l" lang="en">The Japanese text is a summary I wrote while learning, not a claim of fluency.</span><span class="l" lang="ja">日本語の文章は学習しながら書いた要約であり、流暢さを示すものではありません。</span></li>
+    </ul>
+    <p class="colophon mono"><span class="l" lang="en">Built with</span><span class="l" lang="ja">使用ライブラリ</span>: three.js 0.160.0 (MIT) · GSAP 3.13.0 (Standard No-Charge License) · Lenis 1.3.27 (MIT) · IBM Plex (OFL). <span id="generated-by"></span></p>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<noscript><p class="noscript">This page renders its figures from data.json with JavaScript. The text above still describes each chapter.</p></noscript>
+</body>
+</html>
