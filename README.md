@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/Mr-Bathwal/pipeforge/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-Bathwal/pipeforge/actions/workflows/ci.yml)
 
+**Live showcase:** https://pipeforge-site.vercel.app · **Code:** this repository
+
 PipeForge takes a bent-tube part (XYZ centerline points, OD, wall, CLR, JIS material) and produces what a process engineer needs to make and check it:
 
 - **CAD and drawing:** parametric 3D CAD (CadQuery, STEP) and an A3 engineering drawing with a bend table.
@@ -128,7 +130,7 @@ pipeforge/
   process_sheet.py 工程表 XLSX/PDF;  llm_assist.py: grounded summary
   pipeline.py      one call from a part to all of the above
 app/streamlit_app.py   seven-panel bilingual app
-site/                  scroll-driven 3D showcase (three.js, GSAP), reads site/data.json
+site/                  scroll-driven 3D showcase (three.js, GSAP), reads site/data.json; on Vercel
 artifacts/             generated STEP, STL, drawings, programs, sheets, fixtures, models, results
 docs/                  engineering notes, model card, A3, fixture design, playbook, architecture
 tests/                 141 tests (pytest, Hypothesis, Streamlit AppTest)

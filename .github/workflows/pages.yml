@@ -1,9 +1,8 @@
-name: Showcase site
+name: Showcase site (GitHub Pages, optional)
 
+# The site is deployed on Vercel (root directory: site/). This workflow is a manual
+# alternative for GitHub Pages; enable Pages with source "GitHub Actions" before running it.
 on:
-  push:
-    branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:

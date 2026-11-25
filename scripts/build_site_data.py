@@ -71,14 +71,27 @@ def main() -> None:
     for name, path in (("kaizen", ROOT / "artifacts/line/kaizen_results.json"),
                        ("springback", ROOT / "artifacts/springback/metrics.json"),
                        ("closed_loop", ROOT / "artifacts/springback/closed_loop.json"),
-                       ("shap_setup", ROOT / "artifacts/springback/shap_importance_setup.json"),
-                       ("dfm", ROOT / "artifacts/parts/dfm_summary.json")):
+                       ("shap_setup", ROOT / "artifacts/springback/shap_importance_setup.json")):
         if path.exists():
             d = json.loads(path.read_text(encoding="utf-8"))
             if name == "kaizen":
                 d = {k: d[k] for k in ("rows", "throughput_gain_pct", "scrap_change_pts", "reps", "days", "smed",
                                          "buffer_curve", "yamazumi_before", "yamazumi_after")}
             data[name] = d
+    dfm = []
+    for pn, part in parts.items():
+        f = ROOT / "artifacts" / "parts" / pn / f"{pn}_dfm.json"
+        if not f.exists():
+            continue
+        d = json.loads(f.read_text(encoding="utf-8"))
+        dfm.append({
+            "part_no": pn, "name": part.name, "material": part.material, "status": d["status"], "counts": d["counts"],
+            "tooling": d.get("tooling", {}).get("class", ""), "sequence": d.get("sequence", ""),
+            "findings": [{"rule": c["rule"], "title": c["title"], "status": c["status"], "detail": c["detail"]}
+                         for c in d["checks"] if c["status"] != "pass"],
+        })
+    if dfm:
+        data["dfm"] = dfm
     oof = ROOT / "artifacts/springback/oof_predictions.csv"
     if oof.exists():
         import pandas as pd

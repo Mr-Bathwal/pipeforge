@@ -204,16 +204,17 @@ function animateCad() {
 
 function renderDfm(dfm) {
   const body = $('#dfm-body');
-  if (!dfm) { body.innerHTML = pending('make artifacts'); return; }
-  const items = Array.isArray(dfm) ? dfm : Object.entries(dfm).map(([k, v]) => ({ key: k, value: v }));
-  body.innerHTML = `<ul class="dfm-list">${items.map((it) => {
-    if (it && typeof it === 'object' && 'key' in it && 'value' in it) {
-      const v = typeof it.value === 'object' ? JSON.stringify(it.value) : String(it.value);
-      return `<li><span class="k">${esc(it.key)}</span>${esc(v)}</li>`;
-    }
-    const s = typeof it === 'object' ? Object.entries(it).map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`).join(' · ') : String(it);
-    return `<li>${esc(s)}</li>`;
-  }).join('')}</ul>`;
+  if (!dfm || !Array.isArray(dfm) || !dfm.length) { body.innerHTML = pending('make artifacts'); return; }
+  const word = { pass: ['PASS', '合格'], warn: ['WARN', '注意'], fail: ['FAIL', '不可'] };
+  const badge = (st) => `<span class="dfm-badge dfm-${esc(st)}"><span class="l" lang="en">${word[st][0]}</span><span class="l" lang="ja">${word[st][1]}</span></span>`;
+  body.innerHTML = `<ul class="dfm-list">${dfm.map((p) => `
+    <li class="dfm-card dfm-${esc(p.status)}">
+      <div class="dfm-top"><span class="k">${esc(p.part_no)} · ${esc(p.material)}</span>${badge(p.status)}</div>
+      <div class="dfm-name">${esc(p.name)}</div>
+      <div class="dfm-meta mono">${p.counts.pass} pass · ${p.counts.warn} warn · ${p.counts.fail} fail</div>
+      <div class="dfm-meta">${esc(p.tooling)}</div>
+      ${p.findings.length ? `<ul class="dfm-findings">${p.findings.map((f) => `<li class="dfm-${esc(f.status)}"><b class="mono">${esc(f.rule)}</b> ${esc(f.title)}: ${esc(f.detail)}</li>`).join('')}</ul>` : ''}
+    </li>`).join('')}</ul>`;
 }
 
 function countUp(el, dur = 1.4) {
