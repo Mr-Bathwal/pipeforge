@@ -2,8 +2,10 @@
 // wires the EN/日本語 toggle, Lenis + GSAP ScrollTrigger (full motion) or static
 // states with simple controls (reduced motion), and lazy-loads the three.js stages.
 import * as C from './charts.js';
+import * as Sheet from './sheet.js';
+import { createBuild } from './build.js';
 
-const { L, T, fmt, esc, pending } = C;
+const { L, fmt, esc, pending } = C;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const html = document.documentElement;
@@ -21,6 +23,7 @@ const S = {
   hero: null, bend: null, fixture: null, flow: null, yama: null,
   p: { hero: 1, bend: 1, fixture: C.STATE_P.PASS },
   heroPart: null, bendPart: null, cadIndex: 0,
+  sheet: null, build: null, gate: { three: false, drawn: false },
 };
 
 /* ------------------------------------------------------------------ */
@@ -66,17 +69,12 @@ const uniq = (a) => a.filter((v, i) => a.indexOf(v) === i);
 function partName(p) { return L(esc(p.name), esc(p.name_ja)); }
 
 /* ------------------------------------------------------------------ */
-/* 00 hero (static parts: poster, spec, program table)                  */
+/* 00 hero (static parts: sheet drawing, title block, program table)    */
 /* ------------------------------------------------------------------ */
 function renderHero(part) {
   $('#hero-partno').textContent = part.part_no;
-  // poster: front view (X, Z) of the real centreline, visible until WebGL takes over
-  const cl = part.centerline, r = part.od / 2;
-  const xs = cl.map((q) => q[0]), zs = cl.map((q) => q[2]);
-  const x0 = Math.min(...xs) - r, x1 = Math.max(...xs) + r, z0 = Math.min(...zs) - r, z1 = Math.max(...zs) + r;
-  const poster = $('#hero-poster');
-  poster.setAttribute('viewBox', `${x0} ${-z1} ${x1 - x0} ${z1 - z0}`);
-  poster.innerHTML = `<path d="${cl.map((q, i) => `${i ? 'L' : 'M'}${q[0]},${-q[2]}`).join('')}" stroke-width="${part.od}"/>`;
+  // the line drawing (front view, real mm) shows first and crossfades into the 3D render
+  S.sheet = Sheet.heroSheet(part, (S.data.dfm || []).find((r) => r.part_no === part.part_no));
 
   const clrs = uniq(part.clr.map((c) => fmt(c, 0))).join(' / ');
   const hd = (k, v, cls = '') => `<dt class="${cls}">${k}</dt><dd class="${cls}">${v}</dd>`;
@@ -142,6 +140,7 @@ function onHeroPhase(st) {
 function setHero(p) {
   S.p.hero = p;
   if (S.hero) S.hero.setProgress(p);
+  if (S.sheet) S.sheet.setEnabled(p < 0.03);   // cursor readout and inspect only on the untouched sheet
 }
 
 /* ------------------------------------------------------------------ */
@@ -157,7 +156,7 @@ function renderCadTabs(parts) {
     btns.forEach((b, k) => { b.setAttribute('aria-selected', String(k === i)); b.tabIndex = k === i ? 0 : -1; });
     $('#cad-panel').setAttribute('aria-labelledby', `tab-${i}`);
     if (focus) btns[i].focus();
-    renderCad(parts[i], true);
+    renderCad(parts[i]);
   };
   btns.forEach((b, i) => {
     b.addEventListener('click', () => select(i));
@@ -171,35 +170,10 @@ function renderCadTabs(parts) {
   });
 }
 
-function renderCad(part, animate) {
-  $('#cad-drawing').innerHTML = C.drawing(part);
-  const clrs = uniq(part.clr);
-  $('#cad-spec').innerHTML = [
-    dd(L('Part', '品番'), esc(part.part_no)),
-    dd(L('Material', '材質'), esc(part.material)),
-    dd(L('OD × wall', '外径 × 肉厚'), `${fmt(part.od, 2)} × ${fmt(part.wall, 2)} mm`),
-    dd(L('CLR', '曲げR'), `${clrs.map((c) => fmt(c, 0)).join(' / ')} mm`),
-    dd(L('D of bend', '曲げ半径比'), `${clrs.map((c) => fmt(c / part.od, 2)).join(' / ')} D`),
-    dd(L('Wall factor', '肉厚係数'), fmt(part.od / part.wall, 1)),
-  ].join('');
-  $('#xyz-table').innerHTML = $('#xyz-table caption').outerHTML +
-    `<thead><tr><th>${L('Point', '点')}</th><th>X</th><th>Y</th><th>Z</th></tr></thead><tbody>` +
-    part.points.map((q, i) => `<tr><td>P${i}</td><td>${fmt(q[0], 2)}</td><td>${fmt(q[1], 2)}</td><td>${fmt(q[2], 2)}</td></tr>`).join('') + '</tbody>';
-  $('#lra-table').innerHTML = $('#lra-table caption').outerHTML +
-    `<thead><tr><th>${L('Bend', '曲げ')}</th><th>L <span class="unit">mm</span></th><th>R <span class="unit">°</span></th><th>A <span class="unit">°</span></th><th>CLR <span class="unit">mm</span></th></tr></thead><tbody>` +
-    part.lra.map((r, i) => `<tr><td>B${i + 1}</td><td>${fmt(r.L, 2)}</td><td>${fmt(r.R, 2)}</td><td>${fmt(r.A, 2)}</td><td>${fmt(r.CLR, 1)}</td></tr>`).join('') +
-    `</tbody><tfoot><tr><td>${L('Final L', '最終直線')}</td><td>${fmt(part.final_L, 2)}</td><td></td><td></td><td></td></tr></tfoot>`;
-  $('#cad-cut').innerHTML = `<span class="k">${L('Cut length (developed centreline)', '切断長（中心線展開長）')}</span><span class="v" data-count="${part.cut_length}" data-dp="2">${fmt(part.cut_length, 2)}</span><span class="unit">mm</span>`;
-  if (animate && S.full) animateCad();
-}
-
-function animateCad() {
-  const root = $('#cad');
-  const tube = $$('.draw', root);
-  gsap.fromTo(tube, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', stagger: 0.15, clearProps: 'strokeDasharray,strokeDashoffset' });
-  gsap.fromTo($$('.pop', root), { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.04, delay: 0.5, clearProps: 'opacity' });
-  gsap.fromTo($$('#xyz-table tbody tr, #lra-table tbody tr, #lra-table tfoot tr', root), { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.45, stagger: 0.05, delay: 0.3, ease: 'power2.out', clearProps: 'opacity,transform' });
-  countUp($('#cad-cut [data-count]'), 1.2);
+/** chapter 01: the drawing build stage (build.js) for the selected part */
+function renderCad(part) {
+  if (!S.build) S.build = createBuild();
+  S.build.render(part, (S.data.dfm || []).find((r) => r.part_no === part.part_no));
 }
 
 function renderDfm(dfm) {
@@ -287,12 +261,21 @@ const POLICY = {
 
 function renderML(d) {
   const sb = d.springback, cl = d.closed_loop;
-  $('#ml-stats').innerHTML = sb ? [
-    dd(L('Runs used', '使用データ'), fmt(sb.n_runs)),
-    dd(L('Setup groups', '設定グループ'), fmt(sb.n_groups)),
-    dd(L('Folds × repeats', '分割 × 反復'), `${fmt(sb.folds)} × ${fmt(sb.repeats)}`),
-    dd(L('Mean springback', '平均スプリングバック'), `${fmt(sb.target_mean, 2)}° ± ${fmt(sb.target_sd, 2)}`),
-  ].join('') : '';
+  // stat tiles with hard offset shadows
+  const tile = (tag, en, ja, v, unit, dEn, dJa, accent) => `<div class="tile${accent ? ' accent' : ''}"><div class="tk"><span>${L(en, ja)}</span><i>${tag}</i></div>
+    <div class="tv">${v}<span class="u">${unit}</span></div><div class="td">${L(dEn, dJa)}</div></div>`;
+  if (sb) {
+    const best = sb.best && sb.springback[sb.best.setup];
+    const val = (o) => (o && typeof o === 'object' ? o.mean : o);
+    const tiles = [tile('[01]', 'Real bends', '実曲げ', fmt(sb.n_runs), '', `${fmt(sb.n_groups)} setup groups · GroupKFold ${fmt(sb.folds)} × ${fmt(sb.repeats)}`, `設定グループ ${fmt(sb.n_groups)} · GroupKFold ${fmt(sb.folds)} × ${fmt(sb.repeats)}`)];
+    if (best) {
+      const mn = modelName(sb.best.setup);
+      tiles.push(tile('[02]', 'Best MAE', '最良MAE', fmt(val(best.mae), 3), '°', `${mn.m[0]}, ${mn.f[0]} only, unseen setups`, `${mn.m[1]}（${mn.f[1]}のみ）、未知の設定`, true));
+      tiles.push(tile('[03]', 'R²', 'R²', fmt(val(best.r2), 2), '', `± ${fmt(best.r2.sd, 2)} over folds`, `分割間 ± ${fmt(best.r2.sd, 2)}`));
+    }
+    if (cl && cl.fpy && cl.fpy.ml != null) tiles.push(tile('[04]', 'In tolerance', '公差内', fmt(cl.fpy.ml * 100, 1), '%', `of bends within ±${fmt(cl.tolerance_deg, 2)}° after ML compensation`, `ML補正後に±${fmt(cl.tolerance_deg, 2)}°以内の曲げ`, true));
+    $('#ml-stats').innerHTML = tiles.join('');
+  } else $('#ml-stats').innerHTML = '';
 
   // parity
   const pc = $('#parity-chart');
@@ -564,18 +547,20 @@ function no3D(reason) {
   $$('.stage-fallback').forEach((e) => { e.hidden = false; });
   if (hasGSAP) ScrollTrigger.refresh();
 }
+/** line drawing first, then the render: crossfade once the sheet has drawn and three.js is ready */
+function tryRender() { if (S.gate.three && S.gate.drawn && S.sheet) S.sheet.setRenderReady(); }
 function init3D() {
   if (!webgl()) { no3D(); return; }
-  requestAnimationFrame(() => idle(async () => {
+  setTimeout(() => idle(async () => {
     try {
       const m = await import('./hero3d.js');
       S.hero = m.initHero({ canvas: $('#hero-canvas'), part: S.heroPart, onPhase: onHeroPhase, dimEl: S.heroDimTag });
       S.hero.setSpin(S.full);
       if (!S.full) S.hero.setYaw(-0.35);
       S.hero.setProgress(S.p.hero);
-      $('#hero-poster').classList.add('is-hidden');
+      S.gate.three = true; tryRender();
     } catch (e) { no3D(e); }
-  }));
+  }), 60);
   near($('#bend-canvas'), async () => {
     try {
       const m = await import('./bend3d.js');
@@ -608,6 +593,7 @@ function teardown() {
   if (S.split) { S.split.revert(); S.split = null; }
   if (S.mm) { S.mm.revert(); S.mm = null; }
   if (S.ctx) { S.ctx.revert(); S.ctx = null; }
+  if (S.mfReset) { S.mfReset(); S.mfReset = null; }
   if (S.lenis) { gsap.ticker.remove(S.lenisRaf); S.lenis.destroy(); S.lenis = null; }
 }
 
@@ -633,7 +619,25 @@ function setupReduced() {
   const b = $('#bend-control [aria-pressed="true"]');
   setBend(BEND_P[b ? +b.dataset.bendState : 2]);
   setFixture(C.STATE_P[S.reducedState || 'PASS']);
+  if (S.build) S.build.showAll();
+  $('#hero-title').style.visibility = ''; $('#hero-title').style.opacity = '';
   if (hasGSAP) ScrollTrigger.refresh();
+}
+
+/** after the preloader: the title rises in, the sheet draws, then the render takes over */
+function heroIntro() {
+  const done = () => { S.gate.drawn = true; tryRender(); };
+  if (!S.full || S.introDone || scrollY > 40) { $('#hero-title').style.visibility = ''; $('#hero-title').style.opacity = ''; done(); return; }
+  S.introDone = true;
+  const title = $('#hero-title');
+  if (SplitText) {
+    S.split = SplitText.create(title, { type: 'lines,chars', mask: 'lines' });
+    gsap.set(title, { autoAlpha: 1 });
+    gsap.from(S.split.chars, { yPercent: 110, duration: 1.1, ease: 'power4.out', stagger: 0.04 });
+  }
+  gsap.from('.hero-copy .kicker, .hero-sub, .hero-desc, .hero-hmi', { autoAlpha: 0, y: 16, duration: 0.9, stagger: 0.08, delay: 0.25, ease: 'power3.out', clearProps: 'transform,opacity,visibility' });
+  if (S.sheet) S.sheet.drawOn();
+  setTimeout(done, 1500);
 }
 
 function setupFull() {
@@ -644,15 +648,45 @@ function setupFull() {
     gsap.ticker.add(S.lenisRaf);
     gsap.ticker.lagSmoothing(0);
   }
+  if (S.lenis && html.classList.contains('preload')) S.lenis.stop();
   const below = (el) => el.getBoundingClientRect().top > innerHeight * 0.92;
 
   S.ctx = gsap.context(() => {
     // 00 hero: pinned; unbend to the blank, re-bend bend by bend
     gsap.timeline({ scrollTrigger: { trigger: '#hero', start: 'top top', end: '+=300%', pin: true, scrub: true,
       onUpdate: (s) => setHero(s.progress), onRefresh: (s) => setHero(s.progress) } })
-      .to('.hero-copy', { autoAlpha: 0, y: -48, ease: 'none', duration: 0.08 }, 0.05)
-      .to('.scroll-cue', { autoAlpha: 0, ease: 'none', duration: 0.04 }, 0.01)
+      .to('.hero-copy, .hero-desc', { autoAlpha: 0, y: -48, ease: 'none', duration: 0.08 }, 0.05)
       .to({}, { duration: 1 }, 0);
+
+    // statement fill, manifesto lines, the chapter 01 drawing build, footer wordmark
+    Sheet.statementMotion();
+    S.mfReset = Sheet.manifestoMotion();
+    if (S.build) {
+      const bo = { p: 0 };
+      S.build.setProgress(0);
+      gsap.to(bo, { p: 1, ease: 'none', onUpdate: () => S.build.setProgress(bo.p),
+        scrollTrigger: { trigger: '#build', start: 'top top', end: 'bottom bottom', scrub: 0.6 } });
+    }
+    Sheet.wordmarkMotion();
+
+    // parity: an orange scan line sweeps the plot and reveals the points it passes
+    const par = $('#parity-chart svg');
+    if (par && below(par)) {
+      const dots = $$('.dot', par), xs = dots.map((dt) => +dt.getAttribute('cx'));
+      const hit = $('[data-parity]', par);
+      const y0 = +hit.getAttribute('y'), y1 = y0 + +hit.getAttribute('height');
+      const x0 = +hit.getAttribute('x'), x1 = x0 + +hit.getAttribute('width');
+      gsap.set(dots, { opacity: 0 });
+      ScrollTrigger.create({ trigger: par, start: 'top 78%', once: true, onEnter: () => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('class', 'scanline'); line.setAttribute('y1', y0); line.setAttribute('y2', y1);
+        par.appendChild(line);
+        const o = { x: x0 };
+        gsap.to(o, { x: x1, duration: 1.6, ease: 'power1.inOut',
+          onUpdate: () => { line.setAttribute('x1', o.x); line.setAttribute('x2', o.x); dots.forEach((dt, i) => { if (xs[i] <= o.x) dt.style.opacity = '1'; }); },
+          onComplete: () => { line.remove(); dots.forEach((dt) => { dt.style.opacity = '1'; }); } });
+      } });
+    }
 
     // 02 bending: pinned and scrubbed
     ScrollTrigger.create({ trigger: '#bend', start: 'top top', end: '+=260%', pin: true, scrub: true,
@@ -662,23 +696,15 @@ function setupFull() {
     if (S.data.fixture) ScrollTrigger.create({ trigger: '#fixture .fixture-pin', start: 'top top', end: '+=300%', pin: true, scrub: true,
       onUpdate: (s) => setFixture(s.progress), onRefresh: (s) => setFixture(s.progress) });
 
-    // 01 drawing draws itself once
-    const cad = $('#cad-panel');
-    if (cad && below(cad)) {
-      gsap.set($$('#cad .draw'), { strokeDasharray: 1, strokeDashoffset: 1 });
-      gsap.set($$('#cad .pop, #xyz-table tbody tr, #lra-table tbody tr, #lra-table tfoot tr'), { opacity: 0 });
-      ScrollTrigger.create({ trigger: cad, start: 'top 75%', once: true, onEnter: animateCad });
-    }
-
     // reveals
-    const rv = $$('.ch-head > *, .credit, .viz-card, .kz-head, .kz-block > .h3, .kz-stats .stat, .kz-steps li, .link-card, .sheet, .datum-legend > div, .dfm > *, .part-tabs')
-      .filter((el) => !el.closest('#hero, #bend, .fixture-pin') && below(el));
+    const rv = $$('.ch-head > *, .credit, .viz-card, .kz-head, .kz-block > .h3, .tiles > *, .kz-steps li, .sheet, .datum-legend > div, .dfm > .h3, .dfm-card, .mod-grid > li, .modules .wrap > *, .evidence .wrap > .kicker, .evidence .h2, .acc details, .cta > :not(.coord), .foot-links a, .st-copy > *')
+      .filter((el) => !el.closest('#hero, #bend, .fixture-pin, .build-stick') && below(el));
     if (rv.length) gsap.set(rv, { autoAlpha: 0, y: 28 });
     if (rv.length) ScrollTrigger.batch(rv, { start: 'top 90%', once: true,
       onEnter: (els) => gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.07, overwrite: true }) });
 
     // charts grow from their baselines
-    ['#parity-chart', '#fpy-chart', '#shap-chart', '#yama-chart', '#kaizen-chart', '#smed-chart', '#buffer-chart'].forEach((sel) => {
+    ['#fpy-chart', '#shap-chart', '#yama-chart', '#kaizen-chart', '#smed-chart', '#buffer-chart'].forEach((sel) => {
       const el = $(sel); if (!el || !below(el)) return;
       const gy = $$('.grow-y, .yseg', el), gx = $$('.grow-x', el), pop = $$('.pop', el);
       if (!gy.length && !gx.length && !pop.length) return;
@@ -693,23 +719,15 @@ function setupFull() {
     });
     const stats = $('#kz-stats');
     if (stats && below(stats)) ScrollTrigger.create({ trigger: stats, start: 'top 85%', once: true, onEnter: () => $$('[data-count]', stats).forEach((el) => countUp(el)) });
-
-    // hero title, once per page load
-    if (!S.introDone && scrollY < 40) {
-      S.introDone = true;
-      if (SplitText) {
-        const title = $('#hero-title');
-        gsap.set(title, { autoAlpha: 0 });
-        const go = () => {
-          if (!S.full) { gsap.set(title, { autoAlpha: 1 }); return; }
-          S.split = SplitText.create(title, { type: 'lines,chars', mask: 'lines' });
-          gsap.set(title, { autoAlpha: 1 });
-          gsap.from(S.split.chars, { yPercent: 110, duration: 1.1, ease: 'power4.out', stagger: 0.04 });
-        };
-        (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
-      }
-      gsap.from('.hero-copy .eyebrow, .hero-sub, .hero-lede, .hero-for, .hero-hmi', { autoAlpha: 0, y: 16, duration: 0.9, stagger: 0.08, delay: 0.35, ease: 'power3.out', clearProps: 'transform' });
+    const mlTiles = $('#ml-stats');
+    if (mlTiles && below(mlTiles)) {
+      // the hard offset shadow "drops" as each tile lands
+      gsap.set($$('.tile', mlTiles), { '--sh': '0px' });
+      ScrollTrigger.create({ trigger: mlTiles, start: 'top 85%', once: true, onEnter: () => gsap.to($$('.tile', mlTiles), { '--sh': '7px', duration: 0.6, stagger: 0.08, ease: 'power3.out' }) });
     }
+
+    // hero title intro waits for the preloader (see heroIntro)
+    if (!S.introDone && scrollY < 40 && SplitText) gsap.set('#hero-title', { autoAlpha: 0 });
   });
 
   // 05 line: horizontal pinned scroll on wide screens, vertical cards on phones
@@ -755,7 +773,7 @@ function wireControls() {
 function setActive(i) {
   if (S.active === i) return;
   S.active = i;
-  $$('.rail a').forEach((a) => {
+  $$('a[data-rail]').forEach((a) => {
     const on = +a.dataset.rail === i;
     a.classList.toggle('is-active', on);
     if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
@@ -763,7 +781,7 @@ function setActive(i) {
   syncChapterLabel();
 }
 function syncChapterLabel() {
-  const a = $(`.rail a[data-rail="${S.active || 0}"]`);
+  const a = $(`a[data-rail="${S.active || 0}"]`);
   if (!a) return;
   $('#now-num').textContent = a.querySelector('.rail-num').textContent;
   $('#now-name').innerHTML = a.querySelector('.rail-name').innerHTML;
@@ -772,7 +790,7 @@ function trackChapters() {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) setActive(+e.target.dataset.chapter); });
   }, { rootMargin: '-45% 0px -54% 0px' });
-  $$('main > section.chapter').forEach((s) => io.observe(s));
+  $$('main > section[data-chapter]').forEach((s) => io.observe(s));
   setActive(0);
   let raf = 0;
   const bar = $('#progress-bar');
@@ -803,9 +821,15 @@ async function boot() {
   S.cadIndex = Math.max(0, d.parts.indexOf(S.heroPart));
   renderHero(S.heroPart);
   renderCadTabs(d.parts);
-  renderCad(d.parts[S.cadIndex], false);
+  renderCad(d.parts[S.cadIndex]);
   renderDfm(d.dfm);
   bendSetup(d);
+  Sheet.marquee(d);
+  Sheet.statement(d, { ...S.bendCfg, partNo: S.bendPart && S.bendPart.part_no });
+  Sheet.moduleIcons();
+  Sheet.ctaCoords(S.heroPart);
+  Sheet.wordmarkMarks();
+  $$('[data-n="parts"]').forEach((el) => { el.textContent = fmt(d.parts.length); });
   renderML(d);
   if (d.fixture) renderFixturePanel(d.fixture);
   else { $('#stateflow').innerHTML = pending('make artifacts'); $('#estop-btn').hidden = true; }
@@ -814,7 +838,11 @@ async function boot() {
   trackChapters();
   applyMotion();
   init3D();
-  if (document.fonts && hasGSAP) document.fonts.ready.then(() => { if (S.full) ScrollTrigger.refresh(); });
   if (/[?&]debug\b/.test(location.search)) window.__pipeforge = S;   // inspection hook, off by default
+  if (document.fonts) await document.fonts.ready;
+  await Sheet.preloader(d, S.heroPart, S.full);
+  if (S.lenis) S.lenis.start();
+  if (hasGSAP && S.full) ScrollTrigger.refresh();
+  heroIntro();
 }
 boot();

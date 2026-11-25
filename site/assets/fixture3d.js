@@ -20,11 +20,11 @@ export function initFixture({ canvas, labelsEl, fixture }) {
   const plateMat = new THREE.MeshStandardMaterial({ color: 0x7d848d, metalness: 0.55, roughness: 0.5 });
   const blockMat = new THREE.MeshStandardMaterial({ color: 0xb8bec6, metalness: 0.6, roughness: 0.38 });
   const darkMat = new THREE.MeshStandardMaterial({ color: 0x30353c, metalness: 0.6, roughness: 0.45 });
-  const handleMat = new THREE.MeshStandardMaterial({ color: 0xd2471a, metalness: 0.1, roughness: 0.5 });
+  const handleMat = new THREE.MeshStandardMaterial({ color: 0xf15534, metalness: 0.1, roughness: 0.5 });
   const datumMats = {
-    A: new THREE.MeshStandardMaterial({ color: 0x16181b, metalness: 0.3, roughness: 0.5 }),
-    B: new THREE.MeshStandardMaterial({ color: 0x1f5e7a, metalness: 0.3, roughness: 0.5 }),
-    C: new THREE.MeshStandardMaterial({ color: 0xb23a0b, metalness: 0.3, roughness: 0.5 }),
+    A: new THREE.MeshStandardMaterial({ color: 0x282828, metalness: 0.3, roughness: 0.5 }),
+    B: new THREE.MeshStandardMaterial({ color: 0x9c9c98, metalness: 0.3, roughness: 0.5 }),
+    C: new THREE.MeshStandardMaterial({ color: 0xf15534, metalness: 0.3, roughness: 0.5 }),
   };
   const steel = new THREE.MeshPhysicalMaterial({ color: 0xcfd4da, metalness: 1, roughness: 0.3 });
   const bore = new THREE.MeshStandardMaterial({ color: 0x5d636b, metalness: 0.9, roughness: 0.55 });

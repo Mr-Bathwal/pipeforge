@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>404 · Part not found · PipeForge</title>
+<meta name="description" content="Page not found. Return to the PipeForge drafting sheet.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F2F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171716" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F2F2F1'/%3E%3Cpath d='M4 24h8a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6h4' fill='none' stroke='%23282828' stroke-width='3'/%3E%3Ccircle cx='18' cy='16' r='2.4' fill='%23F15534'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&family=IBM+Plex+Sans+JP:wght@500&family=Inter+Tight:wght@600;700&display=swap">
+<style>
+  :root { color-scheme: light; --paper: #F2F2F1; --ink: #282828; --ink-72: rgba(40,40,40,.72); --ink-45: rgba(40,40,40,.45); --rule: #B3B3AF; --accent: #F15534; --accent-line: #FA3600; --accent-text: #B8360F; }
+  @media (prefers-color-scheme: dark) { :root { color-scheme: dark; --paper: #171716; --ink: #ECEBE6; --ink-72: rgba(236,235,230,.72); --ink-45: rgba(236,235,230,.45); --rule: #4A4A46; --accent-text: #F4693F; } }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body { background: var(--paper); color: var(--ink); font-family: "Inter Tight", "IBM Plex Sans JP", system-ui, sans-serif; font-weight: 500; letter-spacing: -0.02em; overflow-x: hidden; }
+  .frame { position: fixed; inset: 8px; border: .8px solid var(--rule); pointer-events: none; }
+  .frame::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9px;
+    background: repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 10px) top / 100% 4px no-repeat, repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 50px) top / 100% 9px no-repeat; }
+  .frame i { position: absolute; width: 17px; height: 17px; }
+  .frame i::before, .frame i::after { content: ""; position: absolute; background: var(--ink); }
+  .frame i::before { left: 0; right: 0; top: 8px; height: 1px; } .frame i::after { top: 0; bottom: 0; left: 8px; width: 1px; }
+  .frame .a { left: -9px; top: -9px; } .frame .b { right: -9px; top: -9px; } .frame .c { left: -9px; bottom: -9px; } .frame .d { right: -9px; bottom: -9px; }
+  main { min-height: 100vh; min-height: 100svh; display: grid; align-content: center; gap: 28px; padding: 56px clamp(16px, 5vw, 64px); max-width: 1280px; margin: 0 auto; }
+  .mono { font-family: "Geist Mono", ui-monospace, Consolas, monospace; font-weight: 500; letter-spacing: 0; text-transform: uppercase; font-size: 13px; color: var(--ink-72); }
+  .mono b { color: var(--accent-text); font-weight: 500; }
+  svg { width: 100%; height: auto; overflow: visible; display: block; }
+  .t-o { fill: none; stroke: var(--ink); stroke-width: 20; stroke-linecap: butt; stroke-linejoin: round; }
+  .t-i { fill: none; stroke: var(--paper); stroke-width: 16; stroke-linecap: butt; stroke-linejoin: round; }
+  .cl { fill: none; stroke: var(--accent-line); stroke-width: 1.2; stroke-dasharray: 16 4 3 4; }
+  .end { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
+  .dim { fill: none; stroke: var(--ink-72); stroke-width: .9; }
+  .dt { font-family: "Geist Mono", ui-monospace, monospace; font-size: 12px; fill: var(--ink); }
+  .bt { font-family: "Geist Mono", ui-monospace, monospace; font-size: 12px; fill: var(--accent-text); }
+  .grid line { stroke: var(--rule); stroke-width: .6; stroke-dasharray: 2 4; }
+  .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.6s cubic-bezier(.22,.8,.2,1) forwards; }
+  .d2 { animation-delay: .25s; } .d3 { animation-delay: .5s; } .d4 { animation-delay: .75s; }
+  .fade { opacity: 0; animation: fade .6s 1.4s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .draw { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; } .fade { opacity: 1; animation: none; } }
+  h1 { margin: 0; font-weight: 700; text-transform: uppercase; font-size: clamp(44px, 9vw, 140px); line-height: .9; letter-spacing: -0.04em; }
+  .sub { margin: 0; font-size: clamp(16px, 1.6vw, 20px); color: var(--ink-72); max-width: 56ch; }
+  .sub span { font-family: "IBM Plex Sans JP", sans-serif; letter-spacing: 0; }
+  .btn { display: inline-flex; text-decoration: none; font-family: "Geist Mono", ui-monospace, monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0; width: fit-content; }
+  .btn span { padding: 15px 20px; background: var(--ink); color: var(--paper); }
+  .btn i { font-style: normal; padding: 15px 16px; background: var(--accent); color: #111; border-left: 1px solid var(--ink); font-family: "Inter Tight", sans-serif; font-weight: 700; }
+  .btn:hover span { background: var(--accent); color: #111; }
+  .btn:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
+  .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: .8px solid var(--ink); padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="frame" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+<main>
+  <div class="row"><p class="mono" style="margin:0"><b>[404]</b> PipeForge · sheet not found</p><p class="mono" style="margin:0">Front view · mm · scale 1:1</p></div>
+  <svg viewBox="0 0 900 440" role="img" aria-label="The number 404 drawn as three bent-tube centrelines with dimension chains and bend labels">
+    <g class="grid" aria-hidden="true"><line x1="0" y1="60" x2="900" y2="60"/><line x1="0" y1="380" x2="900" y2="380"/><line x1="0" y1="250" x2="900" y2="250"/></g>
+    <!-- 4 -->
+    <path class="t-o draw" pathLength="1" d="M70,60 L70,226 Q70,250 94,250 L250,250"/><path class="t-i" d="M70,60 L70,226 Q70,250 94,250 L250,250"/>
+    <path class="t-o draw d2" pathLength="1" d="M200,40 L200,390"/><path class="t-i" d="M200,40 L200,390"/>
+    <!-- 0 -->
+    <path class="t-o draw d3" pathLength="1" d="M400,380 L510,380 Q550,380 550,340 L550,100 Q550,60 510,60 L390,60 Q350,60 350,100 L350,320"/><path class="t-i" d="M400,380 L510,380 Q550,380 550,340 L550,100 Q550,60 510,60 L390,60 Q350,60 350,100 L350,320"/>
+    <!-- 4 -->
+    <path class="t-o draw d4" pathLength="1" d="M650,60 L650,226 Q650,250 674,250 L830,250"/><path class="t-i" d="M650,60 L650,226 Q650,250 674,250 L830,250"/>
+    <path class="t-o draw d4" pathLength="1" d="M780,40 L780,390"/><path class="t-i" d="M780,40 L780,390"/>
+    <!-- centrelines -->
+    <g class="fade">
+      <path class="cl" d="M70,60 L70,226 Q70,250 94,250 L250,250"/><path class="cl" d="M200,40 L200,390"/>
+      <path class="cl" d="M400,380 L510,380 Q550,380 550,340 L550,100 Q550,60 510,60 L390,60 Q350,60 350,100 L350,320"/>
+      <path class="cl" d="M650,60 L650,226 Q650,250 674,250 L830,250"/><path class="cl" d="M780,40 L780,390"/>
+      <circle class="end" cx="70" cy="60" r="5"/><circle class="end" cx="250" cy="250" r="5"/><circle class="end" cx="200" cy="40" r="5"/><circle class="end" cx="200" cy="390" r="5"/>
+      <circle class="end" cx="400" cy="380" r="5"/><circle class="end" cx="350" cy="320" r="5"/>
+      <circle class="end" cx="650" cy="60" r="5"/><circle class="end" cx="830" cy="250" r="5"/><circle class="end" cx="780" cy="40" r="5"/><circle class="end" cx="780" cy="390" r="5"/>
+      <!-- dimension chains: lengths of the drawn straights in sheet units -->
+      <path class="dim" d="M40,60 H20 M40,226 H20 M30,60 V226 M26,64 l8,-8 M26,230 l8,-8"/>
+      <text class="dt" x="14" y="143" transform="rotate(-90 14 143)" text-anchor="middle">L1 166.00</text>
+      <path class="dim" d="M94,276 V300 M250,276 V300 M94,290 H250 M90,294 l8,-8 M246,294 l8,-8"/>
+      <text class="dt" x="172" y="314" text-anchor="middle">L2 156.00</text>
+      <path class="dim" d="M350,410 V430 M550,410 V430 M350,420 H550 M346,424 l8,-8 M546,424 l8,-8"/>
+      <text class="dt" x="450" y="414" text-anchor="middle">W 200.00</text>
+      <path class="dim" d="M574,60 H594 M574,380 H594 M584,60 V380 M580,64 l8,-8 M580,384 l8,-8"/>
+      <text class="dt" x="606" y="220" transform="rotate(90 606 220)" text-anchor="middle">H 320.00</text>
+      <text class="bt" x="104" y="232">B1 A90° · R24</text><text class="bt" x="684" y="232">B1 A90° · R24</text>
+      <text class="bt" x="440" y="364" text-anchor="end">B1 A90° · R40</text><text class="bt" x="474" y="96">B2 A90° · R40</text><text class="bt" x="362" y="96">B3 A90°</text>
+    </g>
+  </svg>
+  <h1>Part not found</h1>
+  <p class="sub">No such XYZ: the drawing you asked for is not on this sheet. <span lang="ja">お探しのページは見つかりません。</span></p>
+  <a class="btn" href="/"><span>Back to the sheet</span><i aria-hidden="true">→</i></a>
+</main>
+</body>
+</html>

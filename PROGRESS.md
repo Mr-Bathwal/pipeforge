@@ -33,7 +33,7 @@ the first item not marked done. Research notes are in
 | M7 process sheet, grounded LLM assistant | done |
 | Streamlit app (AppTest smoke tests) | done |
 | Artifacts for 6 parts | done (brake-line fixture CAD skipped, see above) |
-| 3D showcase site (`site/`) | done: committed 0b547ed, checked in the preview browser (no console errors) |
+| 3D showcase site (`site/`) | done: committed 0b547ed; redesigned 25 Nov in a drafting-sheet language (plan: `pipeforge-research/heron-redesign-plan.md`): preloader, drag-to-inspect DFM callouts, scroll-built drawing stage, manifesto, evidence accordion, CAD wordmark footer, 404 page. All earlier 3D and scroll effects kept. Checked at 1280/1440 px and 375 px, EN/JA, reduced motion, dark mode |
 | README, README_ja | done |
 | docs: ENGINEERING_NOTES, FIXTURE_DESIGN, KAIZEN_A3, LINE_TRANSFER_PLAYBOOK, ARCHITECTURE, MODEL_CARD | done |
 | figures script, CI workflow, Pages workflow, LICENSE | done |
@@ -73,3 +73,4 @@ the first item not marked done. Research notes are in
 - **~10:59** Session restarted. M7 committed.
 - **11:10** App committed.
 - **11:24** Artifacts committed.
+- **13:30** Site redesign committed and pushed (Vercel auto-deploy).

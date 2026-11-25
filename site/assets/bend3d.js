@@ -36,8 +36,8 @@ export function initBend(opts) {
   const bore = new THREE.MeshStandardMaterial({ color: 0x5d636b, metalness: 0.9, roughness: 0.55 });
   const tool = new THREE.MeshStandardMaterial({ color: 0x3b4048, metalness: 0.75, roughness: 0.42 });
   const toolLight = new THREE.MeshStandardMaterial({ color: 0x737a83, metalness: 0.8, roughness: 0.35 });
-  const accent = new THREE.MeshStandardMaterial({ color: 0xe8501a, metalness: 0.1, roughness: 0.55 });
-  const ghostMat = new THREE.MeshBasicMaterial({ color: 0xe8501a, transparent: true, opacity: 0, depthWrite: false });
+  const accent = new THREE.MeshStandardMaterial({ color: 0xf15534, metalness: 0.1, roughness: 0.55 });
+  const ghostMat = new THREE.MeshBasicMaterial({ color: 0xf15534, transparent: true, opacity: 0, depthWrite: false });
 
   const centre = new THREE.Vector3(0, 0, -R);
 
@@ -108,7 +108,7 @@ export function initBend(opts) {
   // dimension: reference line, arm and arc of the tube angle, drawn just above the die
   const arcR = R + r * 4.2;
   const lift = H + 0.01;
-  const lineMat = new THREE.LineBasicMaterial({ color: 0xe8501a });
+  const lineMat = new THREE.LineBasicMaterial({ color: 0xf15534 });
   const refMat = new THREE.LineBasicMaterial({ color: 0x9aa1ab });
   const arcGeo = new THREE.BufferGeometry();
   const arcPos = new Float32Array(65 * 3);

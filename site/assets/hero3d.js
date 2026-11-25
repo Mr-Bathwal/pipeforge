@@ -30,11 +30,11 @@ export function initHero({ canvas, part, onPhase, dimEl }) {
   const cad = new THREE.Group();
   const sharpPts = part.points.map((q) => toThree(q));
   const sharpGeo = new THREE.BufferGeometry().setFromPoints(sharpPts);
-  const sharpLine = new THREE.Line(sharpGeo, new THREE.LineDashedMaterial({ color: 0xe8501a, dashSize: 0.012, gapSize: 0.008, transparent: true }));
+  const sharpLine = new THREE.Line(sharpGeo, new THREE.LineDashedMaterial({ color: 0xf15534, dashSize: 0.012, gapSize: 0.008, transparent: true }));
   sharpLine.computeLineDistances();
   cad.add(sharpLine);
   const dotGeo = new THREE.SphereGeometry(0.0065, 20, 12);
-  const dotMat = new THREE.MeshBasicMaterial({ color: 0xe8501a, transparent: true });
+  const dotMat = new THREE.MeshBasicMaterial({ color: 0xf15534, transparent: true });
   sharpPts.forEach((p) => { const m = new THREE.Mesh(dotGeo, dotMat); m.position.copy(p); cad.add(m); });
   holder.add(cad);
 
@@ -60,8 +60,8 @@ export function initHero({ canvas, part, onPhase, dimEl }) {
   stage.onResize.push((w, h) => {
     camera.aspect = w / h;
     const wide = w / h > 1.2 && w > 900;
-    fitCamera(camera, radius, target, viewDir, wide ? 0.97 : 0.98);
-    if (wide) camera.setViewOffset(w, h, -w * 0.02, h * 0.1, w, h);
+    fitCamera(camera, radius, target, viewDir, wide ? 1.05 : 0.98);
+    if (wide) camera.setViewOffset(w, h, 0, h * 0.02, w, h);
     else camera.setViewOffset(w, h, 0, h * 0.02, w, h);
   });
 
