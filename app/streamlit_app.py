@@ -54,7 +54,7 @@ L = {
     "sample": ("Sample part", "サンプル部品"),
     "custom": ("Custom XYZ", "XYZ入力"),
     "material": ("Material (JIS)", "材質（JIS）"),
-    "cut": ("Cut length", "切断長"),
+    "cut": ("Cut length (program)", "切断長（プログラム）"),
     "bends": ("Bends", "曲げ数"),
     "sb_model": ("Springback model", "スプリングバックモデル"),
     "takt": ("Takt time", "タクトタイム"),
