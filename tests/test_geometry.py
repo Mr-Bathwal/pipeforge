@@ -26,8 +26,8 @@ SAMPLES = sample_parts()
 HAND = np.array([[0, 0, 0], [100, 0, 0], [100, 100, 0], [100, 100, 100]], float)
 
 
-def test_five_samples_exist():
-    assert len(SAMPLES) == 5
+def test_six_samples_exist():
+    assert len(SAMPLES) == 6
 
 
 @pytest.mark.parametrize("part_no", sorted(SAMPLES))

@@ -1,0 +1,38 @@
+{
+ "part_no": "PF-LP-2210",
+ "name": "Lubrication pipe (TubeBEND tube)",
+ "name_ja": "潤滑パイプ（TubeBEND管）",
+ "category": "2W",
+ "material": "SUS304",
+ "od": 22.0,
+ "wall": 1.0,
+ "clr": 33.0,
+ "points": [
+  [
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   164.349,
+   0.0,
+   0.0
+  ],
+  [
+   265.76,
+   108.751,
+   0.0
+  ],
+  [
+   341.762,
+   190.252,
+   119.504
+  ],
+  [
+   454.1,
+   310.721,
+   81.476
+  ]
+ ],
+ "notes": "Synthetic geometry designed for this study, built from the TubeBEND tube (22 x 1 mm stainless, 33 mm CLR) so the ML springback model can be used inside its domain. Not a Yamato or customer part."
+}
